@@ -128,106 +128,58 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1362150428719016, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
---- !u!146 &117532561
-WheelCollider:
+--- !u!136 &117532561
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117532559}
-  m_Center: {x: 0.06, y: 0, z: 0}
-  m_Radius: 0.3
-  m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
-    targetPosition: 0.9
-  m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 20
-  m_WheelDampingRate: 0.25
-  m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
-  m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
+  m_Radius: 0.14
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &251792203 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1172466243100800, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
---- !u!146 &251792204
-WheelCollider:
+--- !u!136 &251792204
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251792203}
-  m_Center: {x: -0.06, y: 0, z: 0}
-  m_Radius: 0.3
-  m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
-    targetPosition: 0.9
-  m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 20
-  m_WheelDampingRate: 0.25
-  m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
-  m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
+  m_Radius: 0.14
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &337513185 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1707052449086216, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
---- !u!146 &337513187
-WheelCollider:
+--- !u!136 &337513187
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337513185}
-  m_Center: {x: -0.06, y: 0, z: 0}
-  m_Radius: 0.3
-  m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
-    targetPosition: 0.9
-  m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 20
-  m_WheelDampingRate: 0.25
-  m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
-  m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
+  m_Radius: 0.14
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &666100213
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,6 +519,12 @@ MonoBehaviour:
   steerSens: 2.8
   velocityDelta: 0.5
   steeringThreshhold: 1
+  rightFrontWheel: {fileID: 0}
+  leftFrontWheel: {fileID: 0}
+  rightRearWheel: {fileID: 0}
+  leftRearWheel: {fileID: 0}
+  body: {fileID: 0}
+  steeringTime: 10
 --- !u!114 &980047275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,6 +543,11 @@ MonoBehaviour:
   maxSteeringAngle: 10
   power: 1
   steersens: 1
+  rightFrontWheel: {fileID: 117532559}
+  leftFrontWheel: {fileID: 337513185}
+  rightRearWheel: {fileID: 2070318887}
+  leftRearWheel: {fileID: 251792203}
+  body: {fileID: 2080474899}
 --- !u!1001 &1138060043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -833,36 +796,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1080898194963768, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
---- !u!146 &2070318889
-WheelCollider:
+--- !u!136 &2070318889
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2070318887}
-  m_Center: {x: 0.06, y: 0, z: 0}
-  m_Radius: 0.3
-  m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
-    targetPosition: 0.9
-  m_SuspensionDistance: 0.3
-  m_ForceAppPointDistance: 0
-  m_Mass: 20
-  m_WheelDampingRate: 0.25
-  m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
-  m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
+  m_Radius: 0.14
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2080474899 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1109519957734154, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}

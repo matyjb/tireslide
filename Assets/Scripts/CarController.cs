@@ -18,6 +18,16 @@ public class CarController : MonoBehaviour
 
     private Rigidbody rb;
 
+    public GameObject rightFrontWheel;
+    public GameObject leftFrontWheel;
+    public GameObject rightRearWheel;
+    public GameObject leftRearWheel;
+    public GameObject body;
+
+    private Vector3 steerRotationDelta = new Vector3(-4.5f, 30, 12);
+    private Quaternion steerRestingRotationRight;
+    private Quaternion steerRestingRotationLeft;
+
     /*
      * samochod ma kule (sphere) w srodku dotykajaca podloza ktora jest mniejsza od samochodu
      * gdy koła samochodu:
@@ -39,6 +49,10 @@ public class CarController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();    
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.GetComponent<Collider>());
     }
 
     void FixedUpdate()
@@ -46,6 +60,7 @@ public class CarController : MonoBehaviour
         GetInput();
         UpdateCarEngineAndSteering();
         ApplyForces();
+        UpdateVisuals();
     }
 
     void GetInput()
@@ -64,5 +79,24 @@ public class CarController : MonoBehaviour
     {
         rb.velocity += rpm * transform.forward;
         rb.MoveRotation(rb.rotation * Quaternion.Euler(0, steeringAngle, 0));
+    }
+
+    void UpdateVisuals()
+    {
+        float steeringTime = 10f;
+        if (steer != 0)
+        {
+            //steering
+            rightFrontWheel.transform.localRotation = Quaternion.Lerp(rightFrontWheel.transform.localRotation, Quaternion.Euler(steerRestingRotationRight.eulerAngles + steerRotationDelta * steer), steeringTime * Time.deltaTime);
+            leftFrontWheel.transform.localRotation = Quaternion.Lerp(leftFrontWheel.transform.localRotation, Quaternion.Euler(steerRestingRotationLeft.eulerAngles + steerRotationDelta * steer), steeringTime * Time.deltaTime);
+        }
+        else
+        {
+            //not steering
+            rightFrontWheel.transform.localRotation = Quaternion.Lerp(rightFrontWheel.transform.localRotation, steerRestingRotationRight, steeringTime * Time.deltaTime);
+            leftFrontWheel.transform.localRotation = Quaternion.Lerp(leftFrontWheel.transform.localRotation, steerRestingRotationLeft, steeringTime * Time.deltaTime);
+
+
+        }
     }
 }
