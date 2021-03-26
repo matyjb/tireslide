@@ -5,12 +5,12 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     public float rpm = 0;
-    public float maxRPM = 2;
+    public float maxRPM = 1.5f;
 
     public float steeringAngle = 0;
     public float maxSteeringAngle = 30;
 
-    public float power = 1f; // rpm gained per input (should be curve)
+    public float power = 0.5f; // rpm gained per input (should be curve)
     public float steersens = 1f;
 
     private float steer = 0; // ranges -1 1
@@ -23,6 +23,8 @@ public class CarController : MonoBehaviour
     public GameObject rightRearWheel;
     public GameObject leftRearWheel;
     public GameObject body;
+
+    public Skid skid;
 
     private Vector3 steerRotationDelta = new Vector3(-4.5f, 30, 12);
     private Quaternion steerRestingRotationRight;
@@ -95,8 +97,16 @@ public class CarController : MonoBehaviour
             //not steering
             rightFrontWheel.transform.localRotation = Quaternion.Lerp(rightFrontWheel.transform.localRotation, steerRestingRotationRight, steeringTime * Time.deltaTime);
             leftFrontWheel.transform.localRotation = Quaternion.Lerp(leftFrontWheel.transform.localRotation, steerRestingRotationLeft, steeringTime * Time.deltaTime);
+        }
 
-
+        Debug.Log(Vector3.Dot(transform.forward.normalized, rb.velocity.normalized));
+        if(Mathf.Abs(Vector3.Dot(transform.forward.normalized, rb.velocity.normalized)) < 0.9)
+        {
+            skid.StartSkid();
+        }
+        else
+        {
+            skid.EndSkid();
         }
     }
 }
