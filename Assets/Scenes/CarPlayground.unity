@@ -128,6 +128,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1362150428719016, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &117532560 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4209153369514598, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
+  m_PrefabInstance: {fileID: 1138060043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!136 &117532561
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -155,11 +160,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsTouchingGround: 1
---- !u!4 &149095116 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4330283203172544, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
-  m_PrefabInstance: {fileID: 1138060043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &251792203 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1172466243100800, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
@@ -179,6 +179,11 @@ CapsuleCollider:
   m_Height: 0.6
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &251792205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4441391621922672, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
+  m_PrefabInstance: {fileID: 1138060043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &251792206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +366,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1707052449086216, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &337513186 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4862946467759254, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
+  m_PrefabInstance: {fileID: 1138060043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!136 &337513187
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -400,7 +410,7 @@ GameObject:
   - component: {fileID: 497625364}
   - component: {fileID: 497625363}
   m_Layer: 0
-  m_Name: RMCar12_WheelFrontLeftSmoke
+  m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,12 +423,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497625361}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.7382889, y: 0.1, z: 1.2939997}
+  m_LocalRotation: {x: 0.078459024, y: -0.99691737, z: -0, w: 0}
+  m_LocalPosition: {x: 0.031287104, y: -0.19753765, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 4
+  m_Father: {fileID: 337513186}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!199 &497625363
 ParticleSystemRenderer:
@@ -5192,57 +5202,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!1 &662718566
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 662718567}
-  - component: {fileID: 662718568}
-  m_Layer: 0
-  m_Name: SmokeTrail
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &662718567
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662718566}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1774371521}
-  - {fileID: 1685163271}
-  - {fileID: 1092807544}
-  - {fileID: 1572694382}
-  - {fileID: 497625362}
-  - {fileID: 700361211}
-  - {fileID: 1763615610}
-  - {fileID: 1922841382}
-  m_Father: {fileID: 149095116}
-  m_RootOrder: 24
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &662718568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662718566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cdc764a80833d46839bdf8b16da859, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &666100213
 GameObject:
   m_ObjectHideFlags: 0
@@ -5713,7 +5672,7 @@ GameObject:
   - component: {fileID: 700361213}
   - component: {fileID: 700361212}
   m_Layer: 0
-  m_Name: RMCar12_WheelFrontRightSmoke
+  m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5726,11 +5685,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700361210}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.7382889, y: 0.1, z: 1.2939997}
+  m_LocalRotation: {x: -0.078459114, y: -0.99691737, z: -0, w: 0}
+  m_LocalPosition: {x: -0.031287022, y: -0.19753768, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
+  m_Father: {fileID: 117532560}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!199 &700361212
@@ -10710,7 +10669,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 300
   m_Drag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 6
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -10754,13 +10713,13 @@ MonoBehaviour:
   steeringAngle: 0
   maxSteeringAngle: 10
   power: 0.5
-  steersens: 1
-  rightFrontWheel: {fileID: 117532559}
-  leftFrontWheel: {fileID: 337513185}
-  rightRearWheel: {fileID: 2070318887}
-  leftRearWheel: {fileID: 251792203}
+  steersens: 10
+  steerForceFactor: 1000
+  rightFrontWheel: {fileID: 117532562}
+  leftFrontWheel: {fileID: 337513188}
+  rightRearWheel: {fileID: 2070318890}
+  leftRearWheel: {fileID: 251792206}
   body: {fileID: 2080474899}
-  skid: {fileID: 662718568}
 --- !u!1 &1092807543
 GameObject:
   m_ObjectHideFlags: 0
@@ -10772,7 +10731,7 @@ GameObject:
   - component: {fileID: 1092807544}
   - component: {fileID: 1092807545}
   m_Layer: 0
-  m_Name: RMCar12_WheelRearLeftTrail
+  m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10785,12 +10744,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092807543}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.7382889, y: 0.1, z: -1.1379805}
+  m_LocalRotation: {x: 0.704927, y: 0.055478904, z: 0.055478904, w: 0.704927}
+  m_LocalPosition: {x: 0.031287104, y: -0.19753765, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 2
+  m_Father: {fileID: 251792205}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!96 &1092807545
 TrailRenderer:
@@ -10903,7 +10862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4209153369514598, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4209153369514598, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10931,7 +10890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4441391621922672, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4441391621922672, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10955,7 +10914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4862946467759254, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4862946467759254, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11015,7 +10974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4994307862460498, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4994307862460498, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11029,6 +10988,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 64720884418023204, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 2d526124b5c5f654a9837eacd6b09ec8, type: 2}
     - target: {fileID: 205970212229679368, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
       propertyPath: m_LODs.Array.data[0].renderers.Array.size
       value: 28
@@ -11205,7 +11168,7 @@ GameObject:
   - component: {fileID: 1572694382}
   - component: {fileID: 1572694383}
   m_Layer: 0
-  m_Name: RMCar12_WheelRearRightTrail
+  m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11218,12 +11181,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572694381}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.7382889, y: 0.1, z: -1.1379805}
+  m_LocalRotation: {x: 0.7053843, y: -0.04932527, z: -0.04932527, w: 0.7053843}
+  m_LocalPosition: {x: -0.027834741, y: -0.19805361, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 3
+  m_Father: {fileID: 2070318888}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!96 &1572694383
 TrailRenderer:
@@ -11334,7 +11297,7 @@ GameObject:
   - component: {fileID: 1685163271}
   - component: {fileID: 1685163272}
   m_Layer: 0
-  m_Name: RMCar12_WheelFrontRightTrail
+  m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11347,12 +11310,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685163270}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.7382889, y: 0.1, z: 1.2939997}
+  m_LocalRotation: {x: 0.704927, y: -0.055478968, z: -0.055478968, w: 0.704927}
+  m_LocalPosition: {x: -0.031287022, y: -0.19753768, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 1
+  m_Father: {fileID: 117532560}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!96 &1685163272
 TrailRenderer:
@@ -11464,7 +11427,7 @@ GameObject:
   - component: {fileID: 1763615612}
   - component: {fileID: 1763615611}
   m_Layer: 0
-  m_Name: RMCar12_WheelRearLeftSmoke
+  m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11477,12 +11440,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763615609}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.7382889, y: 0.1, z: -1.1379805}
+  m_LocalRotation: {x: 0.078459024, y: -0.99691737, z: -0, w: 0}
+  m_LocalPosition: {x: 0.031287104, y: -0.19753765, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 6
+  m_Father: {fileID: 251792205}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!199 &1763615611
 ParticleSystemRenderer:
@@ -16267,7 +16230,7 @@ GameObject:
   - component: {fileID: 1774371521}
   - component: {fileID: 1774371522}
   m_Layer: 0
-  m_Name: RMCar12_WheelFrontLeftTrail
+  m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16280,12 +16243,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774371520}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.7382889, y: 0.1, z: 1.2939997}
+  m_LocalRotation: {x: 0.704927, y: 0.055478904, z: 0.055478904, w: 0.704927}
+  m_LocalPosition: {x: 0.031287104, y: -0.19753765, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 0
+  m_Father: {fileID: 337513186}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!96 &1774371522
 TrailRenderer:
@@ -16397,7 +16360,7 @@ GameObject:
   - component: {fileID: 1922841384}
   - component: {fileID: 1922841383}
   m_Layer: 0
-  m_Name: RMCar12_WheelRearRightSmoke
+  m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16410,12 +16373,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1922841381}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.7382889, y: 0.1, z: -1.1379805}
+  m_LocalRotation: {x: -0.06975647, y: -0.9975641, z: -0, w: 0}
+  m_LocalPosition: {x: -0.027834741, y: -0.19805361, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 662718567}
-  m_RootOrder: 7
+  m_Father: {fileID: 2070318888}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!199 &1922841383
 ParticleSystemRenderer:
@@ -21192,6 +21155,11 @@ ParticleSystem:
 --- !u!1 &2070318887 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1080898194963768, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
+  m_PrefabInstance: {fileID: 1138060043}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2070318888 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4994307862460498, guid: 98af40d30e24f9b43aaf401312cd0a15, type: 3}
   m_PrefabInstance: {fileID: 1138060043}
   m_PrefabAsset: {fileID: 0}
 --- !u!136 &2070318889

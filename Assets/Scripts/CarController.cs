@@ -15,21 +15,19 @@ public class CarController : MonoBehaviour
 
     private float steer = 0; // ranges -1 1
     private float gasbrake = 0; // ranges -1 1
-    private bool isGrounded;
+
+    public float steerForceFactor = 1000;
 
     private Rigidbody rb;
 
-    public GameObject rightFrontWheel;
-    public GameObject leftFrontWheel;
-    public GameObject rightRearWheel;
-    public GameObject leftRearWheel;
+    public WheelController rightFrontWheel;
+    public WheelController leftFrontWheel;
+    public WheelController rightRearWheel;
+    public WheelController leftRearWheel;
     public GameObject body;
 
-    public Skid skid;
-
-    private Vector3 steerRotationDelta = new Vector3(-4.5f, 30, 12);
-    private Quaternion steerRestingRotationRight;
-    private Quaternion steerRestingRotationLeft;
+    
+    
 
     /*
      * samochod ma kule (sphere) w srodku dotykajaca podloza ktora jest mniejsza od samochodu
@@ -52,10 +50,10 @@ public class CarController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.GetComponent<Collider>());
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.GetComponent<Collider>());
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.GetComponent<Collider>());
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.gameObject.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.gameObject.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.gameObject.GetComponent<Collider>());
+        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.gameObject.GetComponent<Collider>());
     }
 
     void FixedUpdate()
@@ -76,44 +74,46 @@ public class CarController : MonoBehaviour
     {
         rpm = Mathf.Lerp(rpm, maxRPM * gasbrake, Time.deltaTime * power);
         steeringAngle = Mathf.Lerp(steeringAngle, maxSteeringAngle * steer, Time.deltaTime * steersens);
-        isGrounded = rightFrontWheel.GetComponent<WheelController>().IsTouchingGround ||
-            leftFrontWheel.GetComponent<WheelController>().IsTouchingGround ||
-            rightRearWheel.GetComponent<WheelController>().IsTouchingGround ||
-            leftRearWheel.GetComponent<WheelController>().IsTouchingGround;
     }
 
     void ApplyForces()
     {
-        if (isGrounded)
+        if(rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
         {
             rb.velocity += rpm * transform.forward;
-            rb.MoveRotation(rb.rotation * Quaternion.Euler(0, steeringAngle, 0));
+        }
+        else if(rightRearWheel.IsTouchingGround || leftRearWheel.IsTouchingGround)
+        {
+            rb.velocity += rpm / 2 * transform.forward;
+        }
+
+        if(rightFrontWheel.IsTouchingGround || leftFrontWheel.IsTouchingGround)
+        {
+            rb.AddTorque(0, steeringAngle* steerForceFactor, 0);
         }
     }
 
     void UpdateVisuals()
     {
-        float steeringTime = 10f;
-        if (steer != 0)
-        {
-            //steering
-            rightFrontWheel.transform.localRotation = Quaternion.Lerp(rightFrontWheel.transform.localRotation, Quaternion.Euler(steerRestingRotationRight.eulerAngles + steerRotationDelta * steer), steeringTime * Time.deltaTime);
-            leftFrontWheel.transform.localRotation = Quaternion.Lerp(leftFrontWheel.transform.localRotation, Quaternion.Euler(steerRestingRotationLeft.eulerAngles + steerRotationDelta * steer), steeringTime * Time.deltaTime);
-        }
-        else
-        {
-            //not steering
-            rightFrontWheel.transform.localRotation = Quaternion.Lerp(rightFrontWheel.transform.localRotation, steerRestingRotationRight, steeringTime * Time.deltaTime);
-            leftFrontWheel.transform.localRotation = Quaternion.Lerp(leftFrontWheel.transform.localRotation, steerRestingRotationLeft, steeringTime * Time.deltaTime);
-        }
+        rightFrontWheel.Turn(steer, false);
+        leftFrontWheel.Turn(steer, true);
 
-        if (Mathf.Abs(Vector3.Dot(transform.forward.normalized, rb.velocity.normalized)) < 0.9)
+        UpdateSkid(rightFrontWheel);
+        UpdateSkid(leftFrontWheel);
+        UpdateSkid(rightRearWheel);
+        UpdateSkid(leftRearWheel);
+        
+    }
+
+    void UpdateSkid(WheelController wheel)
+    {
+        if (Mathf.Abs(Vector3.Dot(wheel.transform.forward.normalized, rb.velocity.normalized)) < 0.9)
         {
-            skid.StartSkid();
+            wheel.StartSkid();
         }
         else
         {
-            skid.EndSkid();
+            wheel.EndSkid();
         }
     }
 }
