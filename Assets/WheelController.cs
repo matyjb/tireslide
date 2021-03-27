@@ -7,8 +7,9 @@ public class WheelController : MonoBehaviour
 {
     public bool IsTouchingGround = true;
 
-    TrailRenderer[] trails;
-    ParticleSystem[] smokes;
+    TrailRenderer trail;
+    ParticleSystem smoke;
+    public float dist = 0.5f;
 
     private Vector3 steerRotationDelta = new Vector3(-4.5f, 30, 12);
     private Quaternion steerRestingRotationRight;
@@ -17,13 +18,13 @@ public class WheelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        trails = gameObject.GetComponentsInChildren<TrailRenderer>();
-        smokes = gameObject.GetComponentsInChildren<ParticleSystem>();
+        trail = gameObject.GetComponentsInChildren<TrailRenderer>()[0];
+        smoke = gameObject.GetComponentsInChildren<ParticleSystem>()[0];
     }
 
     public void FixedUpdate()
     {
-        IsTouchingGround = Physics.Raycast(transform.position, -transform.up, 0.35f);
+        IsTouchingGround = Physics.Raycast(trail.transform.position, -transform.up, dist);
     }
 
 
@@ -44,27 +45,15 @@ public class WheelController : MonoBehaviour
 
     public void StartSkid()
     {
-        foreach (var t in trails)
-        {
-            t.emitting = true;
-        }
-        foreach (var s in smokes)
-        {
-            EmissionModule emission = s.emission;
-            emission.enabled = true;
-        }
+        trail.emitting = true;
+        EmissionModule emission = smoke.emission;
+        emission.enabled = true;
     }
 
     public void EndSkid()
     {
-        foreach (var t in trails)
-        {
-            t.emitting = false;
-        }
-        foreach (var s in smokes)
-        {
-            EmissionModule emission = s.emission;
-            emission.enabled = false;
-        }
+        trail.emitting = false;
+        EmissionModule emission = smoke.emission;
+        emission.enabled = false;
     }
 }

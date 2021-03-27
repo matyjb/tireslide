@@ -11,7 +11,7 @@ public class CarController : MonoBehaviour
     public float maxSteeringAngle = 30;
 
     public float power = 0.5f; // rpm gained per input (should be curve)
-    public float steersens = 1f;
+    public float steersens = 10f;
 
     private float steer = 0; // ranges -1 1
     private float gasbrake = 0; // ranges -1 1
@@ -26,8 +26,10 @@ public class CarController : MonoBehaviour
     public WheelController leftRearWheel;
     public GameObject body;
 
-    
-    
+    float initDrag;
+
+
+
 
     /*
      * samochod ma kule (sphere) w srodku dotykajaca podloza ktora jest mniejsza od samochodu
@@ -50,10 +52,11 @@ public class CarController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.gameObject.GetComponent<Collider>());
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.gameObject.GetComponent<Collider>());
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.gameObject.GetComponent<Collider>());
-        Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.gameObject.GetComponent<Collider>());
+        initDrag = rb.drag;
+        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.gameObject.GetComponent<Collider>());
+        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.gameObject.GetComponent<Collider>());
+        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.gameObject.GetComponent<Collider>());
+        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.gameObject.GetComponent<Collider>());
     }
 
     void FixedUpdate()
@@ -78,18 +81,23 @@ public class CarController : MonoBehaviour
 
     void ApplyForces()
     {
-        if(rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
+        rb.drag = initDrag;
+        if (rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
         {
             rb.velocity += rpm * transform.forward;
         }
-        else if(rightRearWheel.IsTouchingGround || leftRearWheel.IsTouchingGround)
+        else if (rightRearWheel.IsTouchingGround || leftRearWheel.IsTouchingGround)
         {
             rb.velocity += rpm / 2 * transform.forward;
         }
-
-        if(rightFrontWheel.IsTouchingGround || leftFrontWheel.IsTouchingGround)
+        else
         {
-            rb.AddTorque(0, steeringAngle* steerForceFactor, 0);
+            rb.drag = 0.1f;
+        }
+
+        if (rightFrontWheel.IsTouchingGround || leftFrontWheel.IsTouchingGround)
+        {
+            rb.AddTorque(0, steeringAngle * steerForceFactor, 0);
         }
     }
 
@@ -102,7 +110,7 @@ public class CarController : MonoBehaviour
         UpdateSkid(leftFrontWheel);
         UpdateSkid(rightRearWheel);
         UpdateSkid(leftRearWheel);
-        
+
     }
 
     void UpdateSkid(WheelController wheel)
@@ -115,5 +123,12 @@ public class CarController : MonoBehaviour
         {
             wheel.EndSkid();
         }
+
+        if (!wheel.IsTouchingGround)
+        {
+            wheel.EndSkid();
+        }
+
+
     }
 }
