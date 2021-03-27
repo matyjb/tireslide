@@ -15,6 +15,7 @@ public class CarController : MonoBehaviour
 
     private float steer = 0; // ranges -1 1
     private float gasbrake = 0; // ranges -1 1
+    private bool isGrounded;
 
     private Rigidbody rb;
 
@@ -50,7 +51,7 @@ public class CarController : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();    
+        rb = GetComponent<Rigidbody>();
         Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.GetComponent<Collider>());
         Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.GetComponent<Collider>());
         Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.GetComponent<Collider>());
@@ -73,14 +74,21 @@ public class CarController : MonoBehaviour
 
     void UpdateCarEngineAndSteering()
     {
-        rpm = Mathf.Lerp(rpm, maxRPM * gasbrake,Time.deltaTime * power);
+        rpm = Mathf.Lerp(rpm, maxRPM * gasbrake, Time.deltaTime * power);
         steeringAngle = Mathf.Lerp(steeringAngle, maxSteeringAngle * steer, Time.deltaTime * steersens);
+        isGrounded = rightFrontWheel.GetComponent<WheelController>().IsTouchingGround ||
+            leftFrontWheel.GetComponent<WheelController>().IsTouchingGround ||
+            rightRearWheel.GetComponent<WheelController>().IsTouchingGround ||
+            leftRearWheel.GetComponent<WheelController>().IsTouchingGround;
     }
 
     void ApplyForces()
     {
-        rb.velocity += rpm * transform.forward;
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(0, steeringAngle, 0));
+        if (isGrounded)
+        {
+            rb.velocity += rpm * transform.forward;
+            rb.MoveRotation(rb.rotation * Quaternion.Euler(0, steeringAngle, 0));
+        }
     }
 
     void UpdateVisuals()
@@ -99,8 +107,7 @@ public class CarController : MonoBehaviour
             leftFrontWheel.transform.localRotation = Quaternion.Lerp(leftFrontWheel.transform.localRotation, steerRestingRotationLeft, steeringTime * Time.deltaTime);
         }
 
-        Debug.Log(Vector3.Dot(transform.forward.normalized, rb.velocity.normalized));
-        if(Mathf.Abs(Vector3.Dot(transform.forward.normalized, rb.velocity.normalized)) < 0.9)
+        if (Mathf.Abs(Vector3.Dot(transform.forward.normalized, rb.velocity.normalized)) < 0.9)
         {
             skid.StartSkid();
         }
