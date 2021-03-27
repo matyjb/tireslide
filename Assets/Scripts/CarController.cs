@@ -27,9 +27,11 @@ public class CarController : MonoBehaviour
     public GameObject body;
 
     float initDrag;
+    float initAngularDrag;
 
+    public float toGroundForceMultiplier = 2000;
 
-
+    public Vector3 centerOfMass;
 
     /*
      * samochod ma kule (sphere) w srodku dotykajaca podloza ktora jest mniejsza od samochodu
@@ -53,25 +55,30 @@ public class CarController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         initDrag = rb.drag;
+        initAngularDrag = rb.angularDrag;
         //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.gameObject.GetComponent<Collider>());
         //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.gameObject.GetComponent<Collider>());
         //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.gameObject.GetComponent<Collider>());
         //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.gameObject.GetComponent<Collider>());
     }
 
+    public void GasBrake_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        gasbrake = obj.ReadValue<float>();
+    }
+    public void Steer_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        steer = obj.ReadValue<float>();
+    }
+
     void FixedUpdate()
     {
-        GetInput();
         UpdateCarEngineAndSteering();
         ApplyForces();
         UpdateVisuals();
+        rb.centerOfMass = centerOfMass;
     }
 
-    void GetInput()
-    {
-        steer = Input.GetAxis("Horizontal");
-        gasbrake = Input.GetAxis("Vertical");
-    }
 
     void UpdateCarEngineAndSteering()
     {
@@ -82,17 +89,29 @@ public class CarController : MonoBehaviour
     void ApplyForces()
     {
         rb.drag = initDrag;
-        if (rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
+        rb.angularDrag = initAngularDrag;
+        int wheelsTouching = 0;
+        if (rightRearWheel.IsTouchingGround) wheelsTouching++;
+        if (leftRearWheel.IsTouchingGround) wheelsTouching++;
+        switch (wheelsTouching)
         {
-            rb.velocity += rpm * transform.forward;
+            case 1:
+                rb.velocity += rpm / 2 * transform.forward;
+                break;
+            case 2:
+                rb.velocity += rpm * transform.forward;
+                break;
         }
-        else if (rightRearWheel.IsTouchingGround || leftRearWheel.IsTouchingGround)
-        {
-            rb.velocity += rpm / 2 * transform.forward;
-        }
-        else
+        if (rightFrontWheel.IsTouchingGround) wheelsTouching++;
+        if (leftFrontWheel.IsTouchingGround) wheelsTouching++;
+        if(wheelsTouching == 0)
         {
             rb.drag = 0.1f;
+            rb.angularDrag = 0.1f;
+        }
+        if(wheelsTouching != 4)
+        {
+            rb.AddForce(transform.rotation * Vector3.down * toGroundForceMultiplier);
         }
 
         if (rightFrontWheel.IsTouchingGround || leftFrontWheel.IsTouchingGround)
