@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CarController : MonoBehaviour
 {
@@ -33,7 +34,6 @@ public class CarController : MonoBehaviour
     public float toGroundForceMultiplier = 2000;
 
     public Vector3 centerOfMass;
-
     /*
      * samochod ma kule (sphere) w srodku dotykajaca podloza ktora jest mniejsza od samochodu
      * gdy koła samochodu:
@@ -51,6 +51,7 @@ public class CarController : MonoBehaviour
      * ----
      * 
      */
+
 
     void Start()
     {
@@ -72,8 +73,15 @@ public class CarController : MonoBehaviour
         steer = obj.ReadValue<float>();
     }
 
+
+
     void FixedUpdate()
     {
+
+        //if (!inputActions.Player.GasBrake.triggered)
+        //    gasbrake = 0;
+        //if (!inputActions.Player.Steer.triggered)
+        //    steer = 0;
         UpdateCarEngineAndSteering();
         ApplyForces();
         UpdateVisuals();
@@ -84,7 +92,7 @@ public class CarController : MonoBehaviour
     void UpdateCarEngineAndSteering()
     {
         rpm = Mathf.Lerp(rpm, maxRPM * gasbrake, Time.deltaTime * power);
-        steeringAngle = Mathf.Lerp(steeringAngle, (maxSteeringAngle * steer)* turningCurve.Evaluate(rpm/maxRPM), Time.deltaTime * steersens);
+        steeringAngle = Mathf.Lerp(steeringAngle, (maxSteeringAngle * steer) * turningCurve.Evaluate(rpm / maxRPM), Time.deltaTime * steersens);
     }
 
     void ApplyForces()
@@ -105,12 +113,12 @@ public class CarController : MonoBehaviour
         }
         if (rightFrontWheel.IsTouchingGround) wheelsTouching++;
         if (leftFrontWheel.IsTouchingGround) wheelsTouching++;
-        if(wheelsTouching == 0)
+        if (wheelsTouching == 0)
         {
             rb.drag = 0.1f;
             rb.angularDrag = 0.1f;
         }
-        if(wheelsTouching != 4)
+        if (wheelsTouching != 4)
         {
             rb.AddForce(transform.rotation * Vector3.down * toGroundForceMultiplier);
         }
@@ -123,19 +131,19 @@ public class CarController : MonoBehaviour
 
     void UpdateVisuals()
     {
-        rightFrontWheel.Turn(steer, false);
-        leftFrontWheel.Turn(steer, true);
+        rightFrontWheel.Turn(steeringAngle / maxSteeringAngle, false);
+        leftFrontWheel.Turn(steeringAngle / maxSteeringAngle, true);
 
-        UpdateSkid(rightFrontWheel);
-        UpdateSkid(leftFrontWheel);
+        UpdateSkid(rightFrontWheel,0.5f);
+        UpdateSkid(leftFrontWheel,0.5f);
         UpdateSkid(rightRearWheel);
         UpdateSkid(leftRearWheel);
 
     }
 
-    void UpdateSkid(WheelController wheel)
+    void UpdateSkid(WheelController wheel, float skidBound = 0.9f)
     {
-        if (Mathf.Abs(Vector3.Dot(wheel.transform.forward.normalized, rb.velocity.normalized)) < 0.9)
+        if (Mathf.Abs(Vector3.Dot(wheel.transform.forward.normalized, rb.velocity.normalized)) < skidBound)
         {
             wheel.StartSkid();
         }
