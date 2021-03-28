@@ -13121,13 +13121,64 @@ MonoBehaviour:
   power: 0.5
   steersens: 10
   steerForceFactor: 1000
+  turningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.990763
+      value: -0.69773954
+      inSlope: -0.46831936
+      outSlope: -0.46831936
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: -0.3464289
+      value: -0.99949366
+      inSlope: 0.0011361996
+      outSlope: 0.0011361996
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: -0.0017003417
+      value: -0.008982845
+      inSlope: 3.6364043
+      outSlope: 3.6364043
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.32244506
+      value: 0.998148
+      inSlope: -0.0027245437
+      outSlope: -0.0027245437
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2269084
+    - serializedVersion: 3
+      time: 1
+      value: 0.79481125
+      inSlope: -0.30010372
+      outSlope: -0.30010372
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   rightFrontWheel: {fileID: 117532562}
   leftFrontWheel: {fileID: 337513188}
   rightRearWheel: {fileID: 2070318890}
   leftRearWheel: {fileID: 251792206}
   body: {fileID: 2080474899}
   toGroundForceMultiplier: 2000
-  centerOfMass: {x: 0, y: 0.5, z: 0}
+  centerOfMass: {x: 0, y: 0.5, z: 0.5}
 --- !u!1 &1092807543
 GameObject:
   m_ObjectHideFlags: 0

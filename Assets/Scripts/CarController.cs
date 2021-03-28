@@ -17,6 +17,7 @@ public class CarController : MonoBehaviour
     private float gasbrake = 0; // ranges -1 1
 
     public float steerForceFactor = 1000;
+    public AnimationCurve turningCurve;
 
     private Rigidbody rb;
 
@@ -83,7 +84,7 @@ public class CarController : MonoBehaviour
     void UpdateCarEngineAndSteering()
     {
         rpm = Mathf.Lerp(rpm, maxRPM * gasbrake, Time.deltaTime * power);
-        steeringAngle = Mathf.Lerp(steeringAngle, maxSteeringAngle * steer, Time.deltaTime * steersens);
+        steeringAngle = Mathf.Lerp(steeringAngle, (maxSteeringAngle * steer)* turningCurve.Evaluate(rpm/maxRPM), Time.deltaTime * steersens);
     }
 
     void ApplyForces()
