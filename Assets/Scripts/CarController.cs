@@ -7,15 +7,21 @@ public class CarController : MonoBehaviour
 {
     public float rpm = 0;
     public float maxRPM = 1.5f;
+    public ProgressBar rpmPlusProgressBar;
+    public ProgressBar rpmMinusProgressBar;
 
     public float steeringAngle = 0;
     public float maxSteeringAngle = 30;
+    public ProgressBar steeringAngleProgressBar;
 
     public float power = 0.5f; // rpm gained per input (should be curve)
     public float steersens = 10f;
 
     private float steer = 0; // ranges -1 1
+    public ProgressBar steerProgressBar;
     private float gasbrake = 0; // ranges -1 1
+    public ProgressBar gasbrakePlusProgressBar;
+    public ProgressBar gasbrakeMinusProgressBar;
 
     public float steerForceFactor = 1000;
     public AnimationCurve turningCurve;
@@ -58,30 +64,42 @@ public class CarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         initDrag = rb.drag;
         initAngularDrag = rb.angularDrag;
-        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightFrontWheel.gameObject.GetComponent<Collider>());
-        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftFrontWheel.gameObject.GetComponent<Collider>());
-        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), rightRearWheel.gameObject.GetComponent<Collider>());
-        //Physics.IgnoreCollision(body.GetComponent<MeshCollider>(), leftRearWheel.gameObject.GetComponent<Collider>());
+
+        gasbrakePlusProgressBar.minValue = 0;
+        gasbrakePlusProgressBar.maxValue = 1;
+
+        gasbrakeMinusProgressBar.minValue = 0;
+        gasbrakeMinusProgressBar.maxValue = -1;
+
+        steerProgressBar.minValue = -1;
+        steerProgressBar.maxValue = 1;
+
+        rpmPlusProgressBar.minValue = 0;
+        rpmPlusProgressBar.maxValue = maxRPM;
+
+        rpmMinusProgressBar.minValue = 0;
+        rpmMinusProgressBar.maxValue = -maxRPM;
+
+        steeringAngleProgressBar.minValue = -maxSteeringAngle;
+        steeringAngleProgressBar.maxValue = maxSteeringAngle;
     }
 
-    public void GasBrake_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void GasBrake_performed(InputAction.CallbackContext obj)
     {
         gasbrake = obj.ReadValue<float>();
+        gasbrakeMinusProgressBar.currentValue = gasbrake;
+        gasbrakePlusProgressBar.currentValue = gasbrake;
     }
-    public void Steer_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void Steer_performed(InputAction.CallbackContext obj)
     {
         steer = obj.ReadValue<float>();
+        steerProgressBar.currentValue = steer;
     }
 
 
 
     void FixedUpdate()
     {
-
-        //if (!inputActions.Player.GasBrake.triggered)
-        //    gasbrake = 0;
-        //if (!inputActions.Player.Steer.triggered)
-        //    steer = 0;
         UpdateCarEngineAndSteering();
         ApplyForces();
         UpdateVisuals();
@@ -92,7 +110,10 @@ public class CarController : MonoBehaviour
     void UpdateCarEngineAndSteering()
     {
         rpm = Mathf.Lerp(rpm, maxRPM * gasbrake, Time.deltaTime * power);
+        rpmPlusProgressBar.currentValue = rpm;
+        rpmMinusProgressBar.currentValue = rpm;
         steeringAngle = Mathf.Lerp(steeringAngle, (maxSteeringAngle * steer) * turningCurve.Evaluate(rpm / maxRPM), Time.deltaTime * steersens);
+        steeringAngleProgressBar.currentValue = steeringAngle;
     }
 
     void ApplyForces()
