@@ -6,6 +6,8 @@ using static UnityEngine.ParticleSystem;
 public class WheelController : MonoBehaviour
 {
     public bool IsTouchingGround = true;
+    private bool isSkidding = false;
+    private int lastSkid = -1;
 
     TrailRenderer trail;
     ParticleSystem smoke;
@@ -14,6 +16,8 @@ public class WheelController : MonoBehaviour
     private Vector3 steerRotationDelta = new Vector3(-4.5f, 30, 12);
     private Quaternion steerRestingRotationRight;
     private Quaternion steerRestingRotationLeft;
+
+    public Skidmarks skidmarksController;
 
     // Start is called before the first frame update
     void Start()
@@ -43,17 +47,30 @@ public class WheelController : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        trail.emitting = isSkidding;
+        EmissionModule emission = smoke.emission;
+        emission.enabled = isSkidding;
+
+        if (isSkidding)
+        {
+            lastSkid = skidmarksController.AddSkidMark(trail.transform.position, transform.up, 1, lastSkid);
+        }
+        else
+        {
+            lastSkid = -1;
+        }
+            
+    }
+
     public void StartSkid()
     {
-        trail.emitting = true;
-        EmissionModule emission = smoke.emission;
-        emission.enabled = true;
+        isSkidding = true;
     }
 
     public void EndSkid()
     {
-        trail.emitting = false;
-        EmissionModule emission = smoke.emission;
-        emission.enabled = false;
+        isSkidding = false;
     }
 }
