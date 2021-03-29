@@ -44,6 +44,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Handbrake",
+                    "type": "Button",
+                    "id": "29928b3b-6ebc-40b1-acee-819f10ff350f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -420,6 +428,28 @@
                     "action": "Steer",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0cd5a9bb-3e14-4a23-82b1-34ce3a16b3b5",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Handbrake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39afabfe-c3b4-4f85-9d18-84860b696355",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Handbrake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

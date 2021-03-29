@@ -23,6 +23,9 @@ public class CarController : MonoBehaviour
     public ProgressBar gasbrakePlusProgressBar;
     public ProgressBar gasbrakeMinusProgressBar;
 
+    private bool handbrake = false;
+    public ProgressBar handbrakeProgressBar;
+
     public float steerForceFactor = 1000;
     public AnimationCurve turningCurve;
 
@@ -82,6 +85,9 @@ public class CarController : MonoBehaviour
 
         steeringAngleProgressBar.minValue = -maxSteeringAngle;
         steeringAngleProgressBar.maxValue = maxSteeringAngle;
+
+        handbrakeProgressBar.minValue = 0;
+        handbrakeProgressBar.maxValue = 1;
     }
 
     public void GasBrake_performed(InputAction.CallbackContext obj)
@@ -94,6 +100,12 @@ public class CarController : MonoBehaviour
     {
         steer = obj.ReadValue<float>();
         steerProgressBar.currentValue = steer;
+    }
+
+    public void Handbrake_performed(InputAction.CallbackContext obj)
+    {
+        handbrake = obj.ReadValue<float>() == 1;
+        handbrakeProgressBar.currentValue = handbrake ? 1 : 0;
     }
 
 
