@@ -29,8 +29,8 @@ public class CarControllerNew : MonoBehaviour
 
     public float power = 0.7f;
     public float maxForwardVelocity = 32;
-    public float maxAngle = 60;
-    public float steerTorqueFactor = 200;
+    public float maxAngle = 45;
+    public float steerTorqueFactor = 180;
     public float handbrakeSteerFactor = 25;
 
     float initDrag;
@@ -123,11 +123,11 @@ public class CarControllerNew : MonoBehaviour
             }
             steer = Mathf.Lerp(steer, -steerInput, Time.deltaTime * 10f);
         }
-        
+
         handbrake = handbrakeInput > 0 ? 1 : 0;
 
         //gears
-        if (Vector3.Dot(rb.velocity.normalized, transform.forward) < 0.1f)
+        if (Vector3.Dot(rb.velocity, transform.forward) < 3f)
         {
             //can change gear
             if (gearSelected == 0)
@@ -140,6 +140,8 @@ public class CarControllerNew : MonoBehaviour
             }
         }
     }
+
+    public float handbrakeVelPenaltyFactor = 4f;
 
     private void ApplyForces()
     {
@@ -155,12 +157,17 @@ public class CarControllerNew : MonoBehaviour
         // velocity
         if (rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
         {
-            if (gasbrakeInput != 0)
+            if ((gasbrakeInput > 0 && gearSelected > 0) || (gasbrakeInput < 0 && gearSelected == 0))
             {
                 float forwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
-                rb.velocity += transform.forward * power * powerCurvePerVelocity.Evaluate(forwardVelocity / maxForwardVelocity) * gears[gearSelected].Evaluate(rpm / maxRPM);
-                //handbrake* handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity);
+                float vel = power * powerCurvePerVelocity.Evaluate(forwardVelocity / maxForwardVelocity) * gears[gearSelected].Evaluate(rpm / maxRPM);
+                if(rb.velocity.magnitude > 0.1f)
+                {
+                    vel *= Mathf.Clamp(Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward)),0.7f,1);
+                }
+                rb.velocity += transform.forward * vel - handbrake * rb.velocity.normalized * handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity) / handbrakeVelPenaltyFactor;
             }
+            rb.velocity += Mathf.Abs(Vector3.Dot(transform.right, rb.velocity.normalized)) * transform.forward * rb.velocity.magnitude / 80;
         }
 
         // turning
@@ -169,7 +176,7 @@ public class CarControllerNew : MonoBehaviour
             // normal
             float steerTorque = steer * maxAngle * gripPerAngle.Evaluate(Vector3.Dot(rb.velocity.normalized, transform.forward));
             // handbrake
-            steerTorque += (Vector3.Dot(transform.right,rb.velocity.normalized) > 0 ? -1 : 1) * handbrake * handbrakeSteerFactor * steeringWithHandbrakePerAngle.Evaluate(Vector3.Dot(rb.velocity.normalized, transform.forward));
+            steerTorque += (Vector3.Dot(transform.right, rb.velocity.normalized) > 0 ? -1 : 1) * handbrake * handbrakeSteerFactor * steeringWithHandbrakePerAngle.Evaluate(Vector3.Dot(rb.velocity.normalized, transform.forward));
 
             steerTorque *= gripPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity);
             rb.AddTorque(transform.rotation * new Vector3(0, steerTorque * steerTorqueFactor, 0));
@@ -178,8 +185,16 @@ public class CarControllerNew : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        rightFrontWheel.Turn(steer, false);
-        leftFrontWheel.Turn(steer, true);
+        if (gearSelected != 0)
+        {
+            rightFrontWheel.Turn(steer, false);
+            leftFrontWheel.Turn(steer, true);
+        }
+        else
+        {
+            rightFrontWheel.Turn(-steer, false);
+            leftFrontWheel.Turn(-steer, true);
+        }
 
         UpdateSkid(rightFrontWheel, true, 0.5f);
         UpdateSkid(leftFrontWheel, true, 0.5f);

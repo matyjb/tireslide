@@ -13853,7 +13853,7 @@ MonoBehaviour:
       outWeight: 0.32463282
     - serializedVersion: 3
       time: 0.3
-      value: -0.5
+      value: -0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -13862,7 +13862,7 @@ MonoBehaviour:
       outWeight: 0.24807096
     - serializedVersion: 3
       time: 1
-      value: -0.5
+      value: -0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -13898,9 +13898,9 @@ MonoBehaviour:
   gearSelected: 1
   power: 0.7
   maxForwardVelocity: 32
-  maxAngle: 60
-  steerTorqueFactor: 200
-  handbrakeSteerFactor: 25
+  maxAngle: 45
+  steerTorqueFactor: 170
+  handbrakeSteerFactor: 15
   powerCurvePerVelocity:
     serializedVersion: 2
     m_Curve:
@@ -14039,6 +14039,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  handbrakeVelPenaltyFactor: 10
 --- !u!114 &980047274
 MonoBehaviour:
   m_ObjectHideFlags: 0
