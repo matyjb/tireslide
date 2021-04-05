@@ -99,11 +99,12 @@ public class CarControllerNew : MonoBehaviour
             }
             else if (gasbrakeInput < 0)
             {
-                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / 0.4f / -gasbrakeInput);
+                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / 0.3f / -gasbrakeInput);
             }
             else
             {
-                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / 2f);
+                float sidewaysAngle = Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward));
+                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / Mathf.Pow(0.3f * sidewaysAngle + 0.3f,2));
             }
             steer = Mathf.Lerp(steer, steerInput, Time.deltaTime * 10f);
         }
@@ -115,11 +116,12 @@ public class CarControllerNew : MonoBehaviour
             }
             else if (gasbrakeInput > 0)
             {
-                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / 0.4f / gasbrakeInput);
+                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / 0.3f / gasbrakeInput);
             }
             else
             {
-                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / 2f);
+                float sidewaysAngle = Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward));
+                rpm = Mathf.Lerp(rpm, 0, Time.deltaTime / Mathf.Pow(0.3f * sidewaysAngle + 0.3f, 2));
             }
             steer = Mathf.Lerp(steer, -steerInput, Time.deltaTime * 10f);
         }
@@ -157,11 +159,11 @@ public class CarControllerNew : MonoBehaviour
         // velocity
         if (rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
         {
-            if ((gasbrakeInput > 0 && gearSelected > 0) || (gasbrakeInput < 0 && gearSelected == 0))
+            //if ((gasbrakeInput > 0 && gearSelected > 0) || (gasbrakeInput < 0 && gearSelected == 0))
             {
                 float forwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
                 float vel = power * powerCurvePerVelocity.Evaluate(forwardVelocity / maxForwardVelocity) * gears[gearSelected].Evaluate(rpm / maxRPM);
-                if(rb.velocity.magnitude > 0.1f)
+                if (rb.velocity.magnitude > 0.1f)
                 {
                     vel *= Mathf.Clamp(Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward)),0.7f,1);
                 }
@@ -169,7 +171,6 @@ public class CarControllerNew : MonoBehaviour
             }
             rb.velocity += Mathf.Abs(Vector3.Dot(transform.right, rb.velocity.normalized)) * transform.forward * rb.velocity.magnitude / 80;
         }
-
         // turning
         if (rightFrontWheel.IsTouchingGround && leftFrontWheel.IsTouchingGround)
         {
