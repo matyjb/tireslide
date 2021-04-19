@@ -172,45 +172,41 @@ public class CarControllerNew : MonoBehaviour
         }
         else
         {
-            rb.drag = initDrag * Mathf.Clamp(Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward)), 0.2f, 1);
+            rb.drag = initDrag * Mathf.Clamp(Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward)), 0.6f, 1);
         }
 
         bool isPlayerAccelerating = (gasbrakeInput > 0 && gearSelected > 0) || (gasbrakeInput < 0 && gearSelected == 0);
         // velocity
         if (rightRearWheel.IsTouchingGround && leftRearWheel.IsTouchingGround)
         {
+            float forwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
+            float vel = power * powerCurvePerVelocity.Evaluate(forwardVelocity / maxForwardVelocity) * gears[gearSelected].Evaluate(rpm / maxRPM);
+            // grip of tyres
+            if (rb.velocity.magnitude > 0.1f)
+            {
+                vel *= Mathf.Clamp(Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward)), 0.7f, 1);
+            }
+            //handbrake
+            if (handbrake != 0)
+            {
+                vel *= 1 - handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity);
+                rb.velocity *= 0.995f;
+            }
+            // brakes
+            if((gasbrakeInput > 0 && gearSelected == 0) || (gasbrakeInput < 0 && gearSelected > 0))
+            {
+                rb.velocity *= 0.99f;
+            }
+
             if (isPlayerAccelerating)
             {
-                float forwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
-                float vel = power * powerCurvePerVelocity.Evaluate(forwardVelocity / maxForwardVelocity) * gears[gearSelected].Evaluate(rpm / maxRPM);
-                if (rb.velocity.magnitude > 0.1f)
-                {
-                    vel *= Mathf.Clamp(Mathf.Abs(Vector3.Dot(rb.velocity.normalized, transform.forward)), 0.7f, 1);
-                }
-                if(handbrake != 0)
-                {
-                    vel *= 1 - handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity);
-                }
                 rb.velocity += transform.forward * vel;
-                //rb.velocity += transform.forward * vel - handbrake * rb.velocity.normalized * handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity) / handbrakeVelPenaltyFactor;
             }
+            // when car is freewheeling
             else
             {
-                rb.velocity += Mathf.Abs(Vector3.Dot(transform.right, rb.velocity.normalized)) * transform.forward * rb.velocity.magnitude / 50 * (1 - handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity));
+                rb.velocity += transform.forward * vel * 0.4f * Mathf.Abs(Vector3.Dot(transform.right, rb.velocity.normalized));
             }
-            //float forwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
-            //float sidewaysVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.right));
-            //float velForward = power * powerCurvePerVelocity.Evaluate(forwardVelocity / maxForwardVelocity) * gears[gearSelected].Evaluate(rpm / maxRPM);
-            //if (handbrake != 0)
-            //    velForward *= 1 - handbrakePowerPerVelocity.Evaluate(rb.velocity.magnitude / maxForwardVelocity);
-            //if (isPlayerAccelerating)
-            //{
-
-            //}
-            //else
-            //{
-
-            //}
 
         }
         // turning
