@@ -24496,6 +24496,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 29928b3b-6ebc-40b1-acee-819f10ff350f
     m_ActionName: Player/Handbrake[/DualShock4GamepadHID/rightShoulder,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 980047273}
+        m_TargetAssemblyTypeName: CarControllerNew, Assembly-CSharp
+        m_MethodName: ResetCar_performed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7c1fd0f1-5174-4fcb-83fa-541310e4e186
+    m_ActionName: Player/ResetCar[/Keyboard/delete,/DualShock4GamepadHID/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -24728,7 +24744,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0.8
+      value: 0.3
       inSlope: 0
       outSlope: 0
       tangentMode: 0
