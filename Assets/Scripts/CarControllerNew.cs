@@ -47,11 +47,22 @@ public class CarControllerNew : MonoBehaviour
 
     public AnimationCurve handbrakePowerPerVelocity;
 
+    private AudioSource engineSound;
+    private AudioSource tiresSound;
+    private bool isSkidding;
+    //public AudioClip engineLow;
+    //public AudioClip engineMed;
+    //public AudioClip engineHigh;
+    //public AudioClip engineFull;
+    //int currentAudioClip = 0;
+
     void Start()
     {
         resetPos = transform.position;
         resetRot = transform.rotation;
         rb = GetComponent<Rigidbody>();
+        engineSound = GetComponents<AudioSource>()[0];
+        tiresSound = GetComponents<AudioSource>()[1];
         initDrag = rb.drag;
         initAngularDrag = rb.angularDrag;
 
@@ -90,10 +101,37 @@ public class CarControllerNew : MonoBehaviour
 
     void FixedUpdate()
     {
+        isSkidding = false;
         UpdateCarEngineAndSteering();
         UpdateUI();
         ApplyForces();
         UpdateVisuals();
+        UpdateEngineSounds();
+        UpdateTiresSounds();
+    }
+
+    private void UpdateTiresSounds()
+    {
+        float velocityClamped = Mathf.Clamp(rb.velocity.magnitude, 0, 32);
+        float volume = isSkidding && velocityClamped > 6 ? 1 : 0;
+
+        tiresSound.volume = Mathf.Lerp(tiresSound.volume, volume, Time.deltaTime / 0.2f);
+        tiresSound.pitch = 0.9f + 0.2f * velocityClamped / maxForwardVelocity;
+    }
+
+    private void UpdateEngineSounds()
+    {
+        float pitchDeltaLow = 0.6f;
+        float pitchDeltaHigh = 0.9f;
+        float rpmFactor = rpm / maxRPM;
+
+        float newPitch = 1 - pitchDeltaLow + (1 + pitchDeltaHigh - pitchDeltaLow) * rpmFactor;
+        if (handbrake > 0)
+            newPitch *= 0.9f;
+        if (rpm > maxRPM - 500)
+            newPitch -= Mathf.PingPong(Time.time, 0.2f);
+
+        engineSound.pitch = newPitch;
     }
 
     private void UpdateUI()
@@ -107,6 +145,8 @@ public class CarControllerNew : MonoBehaviour
     {
         float brakeTime = 0.7f;
         float accelTime = 1f;
+
+
         if (gearSelected != 0)
         {
             if (gasbrakeInput > 0)
@@ -193,7 +233,7 @@ public class CarControllerNew : MonoBehaviour
                 rb.velocity *= 0.995f;
             }
             // brakes
-            if((gasbrakeInput > 0 && gearSelected == 0) || (gasbrakeInput < 0 && gearSelected > 0))
+            if ((gasbrakeInput > 0 && gearSelected == 0) || (gasbrakeInput < 0 && gearSelected > 0))
             {
                 rb.velocity *= 0.99f;
             }
@@ -250,15 +290,18 @@ public class CarControllerNew : MonoBehaviour
         if (Mathf.Abs(Vector3.Dot(wheel.transform.forward.normalized, rb.velocity.normalized)) < skidBound || (!isFront && handbrake != 0))
         {
             wheel.StartSkid();
+            isSkidding = true;
         }
         else
         {
             wheel.EndSkid();
+            isSkidding = false;
         }
 
         if (!wheel.IsTouchingGround)
         {
             wheel.EndSkid();
+            isSkidding = false;
         }
     }
 }
