@@ -13,8 +13,11 @@ public class x2ScoreGate : MonoBehaviour, IResetable
 
     private void OnTriggerEnter(Collider other)
     {
-        collider.enabled = false;
-        // add multiplyier in PointsManager
+        if (other.tag == "Player" && collider.enabled)
+        {
+            collider.enabled = false;
+            PointsManager.instance.AddMultiplier(1);
+        }
     }
 
     // Update is called once per frame

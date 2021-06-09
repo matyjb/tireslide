@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     [HideInInspector]
-    public GameManager instance;
+    public static GameManager instance;
 
     public CanvasGroup pauseCanvas;
 

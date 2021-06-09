@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlusPointsOnHit : MonoBehaviour, IResetable
 {
-    public int points = 1500;
+    public int points = 15;
     private new BoxCollider collider;
     // Start is called before the first frame update
     void Start()
@@ -14,8 +14,11 @@ public class PlusPointsOnHit : MonoBehaviour, IResetable
 
     private void OnTriggerEnter(Collider other)
     {
-        collider.enabled = false;
-        // add points to PointsManager
+        if (other.tag == "Player" && collider.enabled)
+        {
+            collider.enabled = false;
+            PointsManager.instance.AddScaledPoints(points);
+        }
     }
 
     // Update is called once per frame

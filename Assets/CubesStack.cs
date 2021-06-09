@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CubesStack : MonoBehaviour, IResetable
 {
-    int pointsBonus = 3000;
+    int pointsBonus = 30;
 
     private new BoxCollider collider;
     // Start is called before the first frame update
@@ -15,14 +15,17 @@ public class CubesStack : MonoBehaviour, IResetable
 
     private void OnTriggerEnter(Collider other)
     {
-        collider.enabled = false;
-        // add points to PointsManager
+        if (other.tag == "Player" && collider.enabled)
+        {
+            collider.enabled = false;
+            PointsManager.instance.AddScaledPoints(pointsBonus);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ResetToInitial()
