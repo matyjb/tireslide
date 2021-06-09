@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CarControllerNew : MonoBehaviour
+public class CarControllerNew : MonoBehaviour, IResetable
 {
     private Vector3 resetPos;
     private Quaternion resetRot;
@@ -49,7 +49,8 @@ public class CarControllerNew : MonoBehaviour
 
     private AudioSource engineSound;
     private AudioSource tiresSound;
-    private bool isSkidding;
+    public bool isSkidding = false;
+    public bool isInAir = false;
     //public AudioClip engineLow;
     //public AudioClip engineMed;
     //public AudioClip engineHigh;
@@ -88,15 +89,16 @@ public class CarControllerNew : MonoBehaviour
     {
         handbrakeInput = obj.ReadValue<float>();
     }
-    public void ResetCar_performed(InputAction.CallbackContext obj)
+
+    public void ResetToInitial()
     {
-        if (obj.performed)
-        {
-            transform.position = resetPos;
-            transform.rotation = resetRot;
-            rb.velocity *= 0;
-            rb.angularVelocity *= 0;
-        }
+        transform.position = resetPos;
+        transform.rotation = resetRot;
+        rb.velocity *= 0;
+        rb.angularVelocity *= 0;
+
+        rpm = steer = handbrake = 0;
+        gearSelected = 1;
     }
 
     void FixedUpdate()
@@ -146,6 +148,10 @@ public class CarControllerNew : MonoBehaviour
         float brakeTime = 0.7f;
         float accelTime = 1f;
 
+        isInAir = !(rightFrontWheel.IsTouchingGround ||
+                  leftFrontWheel.IsTouchingGround ||
+                  rightRearWheel.IsTouchingGround ||
+                  leftRearWheel.IsTouchingGround);
 
         if (gearSelected != 0)
         {
