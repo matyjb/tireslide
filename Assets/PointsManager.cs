@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,7 @@ public class PointsManager : MonoBehaviour
     public int Points { get; private set; } = 0;
     private float pointsFollower = 0;
 
-    private int multiplier = 1;
+    public int multiplier = 1;
 
     private void Awake()
     {
@@ -28,11 +29,8 @@ public class PointsManager : MonoBehaviour
 
     private IEnumerator WaitAndSubtractMultiplier(int divider)
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(10);
-            multiplier -= divider;
-        }
+        yield return new WaitForSeconds(10);
+        multiplier -= divider;
     }
 
     public void AddScaledPoints(int amount)

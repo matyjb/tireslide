@@ -49,7 +49,8 @@ public class CarControllerNew : MonoBehaviour
 
     private AudioSource engineSound;
     private AudioSource tiresSound;
-    private bool isSkidding;
+    public bool isSkidding = false;
+    public bool isInAir = false;
     //public AudioClip engineLow;
     //public AudioClip engineMed;
     //public AudioClip engineHigh;
@@ -146,6 +147,10 @@ public class CarControllerNew : MonoBehaviour
         float brakeTime = 0.7f;
         float accelTime = 1f;
 
+        isInAir = !(rightFrontWheel.IsTouchingGround || 
+                  leftFrontWheel.IsTouchingGround ||
+                  rightRearWheel.IsTouchingGround || 
+                  leftRearWheel.IsTouchingGround);
 
         if (gearSelected != 0)
         {
