@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 410447239}
   m_Layer: 0
   m_Name: Wall (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5688,7 +5688,7 @@ GameObject:
   - component: {fileID: 553455344}
   m_Layer: 0
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11622,7 +11622,7 @@ GameObject:
   - component: {fileID: 860635422}
   m_Layer: 0
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11979,9 +11979,9 @@ MonoBehaviour:
     m_ActionName: Player/Handbrake[/DualShock4GamepadHID/rightShoulder,/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 980047273}
-        m_TargetAssemblyTypeName: CarControllerNew, Assembly-CSharp
-        m_MethodName: ResetCar_performed
+      - m_Target: {fileID: 963194231}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Reset_performed
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13671,7 +13671,7 @@ GameObject:
   - component: {fileID: 1352445883}
   m_Layer: 0
   m_Name: Wall (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -24422,7 +24422,7 @@ GameObject:
   - component: {fileID: 1939106176}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25103,7 +25103,7 @@ GameObject:
   - component: {fileID: 2134820219}
   m_Layer: 0
   m_Name: Wall (3)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

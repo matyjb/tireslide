@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DriftPoints : MonoBehaviour
+public class DriftPoints : MonoBehaviour, IResetable
 {
     CarControllerNew ccn;
     Rigidbody rb;
@@ -46,6 +46,14 @@ public class DriftPoints : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.tag == "Wall")
+        {
+            ResetToInitial();
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -83,8 +91,10 @@ public class DriftPoints : MonoBehaviour
                 pointsAir = pointsAirLerp = 0;
             }
         }
+    }
 
-        // jesli walnie w œciane pointsCombo = 0
-        // reset samochodu/calej resetuje ten skrypt
+    public void ResetToInitial()
+    {
+        pointsDrift = pointsAir = pointsDriftLerp = pointsAirLerp = lastPointsGained = 0;
     }
 }

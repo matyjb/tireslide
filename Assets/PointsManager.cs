@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PointsManager : MonoBehaviour
+public class PointsManager : MonoBehaviour, IResetable
 {
     public static PointsManager instance;
 
@@ -49,5 +49,12 @@ public class PointsManager : MonoBehaviour
         pointsFollower = Mathf.Lerp(pointsFollower, Points, Time.deltaTime / 0.2f);
         textPoints.text = Mathf.RoundToInt(pointsFollower).ToString();
         textMultiplier.text = string.Format("x{0}", multiplier);
+    }
+
+    public void ResetToInitial()
+    {
+        Points = 0;
+        pointsFollower = 0;
+        multiplier = 1;
     }
 }

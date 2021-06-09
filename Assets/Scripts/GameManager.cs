@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,17 @@ public class GameManager : MonoBehaviour
         if (obj.started)
         {
             IsPaused = !IsPaused;
+        }
+    }
+
+    public void Reset_performed(InputAction.CallbackContext obj)
+    {
+        if (obj.started)
+        {
+            foreach (IResetable item in FindObjectsOfType<MonoBehaviour>().OfType<IResetable>())
+            {
+                item.ResetToInitial();
+            }
         }
     }
 

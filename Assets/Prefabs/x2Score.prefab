@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5368868553328567441}
   m_Layer: 0
   m_Name: Pole1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 3459276848918174766}
   m_Layer: 0
   m_Name: Pole2
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
