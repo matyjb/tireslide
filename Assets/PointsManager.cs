@@ -11,8 +11,9 @@ public class PointsManager : MonoBehaviour, IResetable
     public TextMeshProUGUI textPoints;
     public TextMeshProUGUI textMultiplier;
 
-    public int Points { get; private set; } = 0;
+    public float Points { get; private set; } = 0;
     private float pointsFollower = 0;
+
 
     public int multiplier = 1;
 
@@ -33,14 +34,16 @@ public class PointsManager : MonoBehaviour, IResetable
         multiplier -= divider;
     }
 
-    public void AddScaledPoints(int amount)
+    public void AddScaledPoints(float amount)
     {
         Points += amount * multiplier;
+        Points = Mathf.Max(Points, 0);
     }
 
-    public void AddUnscaledPoints(int amount)
+    public void AddUnscaledPoints(float amount)
     {
         Points += amount;
+        Points = Mathf.Max(Points, 0);
     }
 
     // Update is called once per frame

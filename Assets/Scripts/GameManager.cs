@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,6 +31,12 @@ public class GameManager : MonoBehaviour
 
     private AudioSource countdownAudio;
 
+    public static float initialGameTimeLeft = 60;
+
+    public float gameTimeLeftSeconds;
+
+    public TextMeshProUGUI timeLeftText;
+
     public GameState GameState
     {
         get => _gameState;
@@ -51,6 +58,7 @@ public class GameManager : MonoBehaviour
                             StopCoroutine(startingCoroutine);
                         }
                         startingCoroutine = StartCoroutine(ThreeTwoOneGo());
+                        gameTimeLeftSeconds = initialGameTimeLeft;
                         break;
                     case GameState.Playing:
                         Time.timeScale = 1;
@@ -108,6 +116,7 @@ public class GameManager : MonoBehaviour
     {
         countdownAudio = GetComponent<AudioSource>();
         GameState = GameState.Starting;
+        gameTimeLeftSeconds = initialGameTimeLeft;
     }
 
     void Awake()
@@ -119,6 +128,25 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         pauseCanvas.alpha = Mathf.Lerp(pauseCanvas.alpha, GameState == GameState.Paused ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        if (GameState == GameState.Playing)
+        {
+            gameTimeLeftSeconds -= Time.deltaTime;
+        }
+        if (gameTimeLeftSeconds < 0)
+        {
+            gameTimeLeftSeconds = 0;
+        }
+
+        if(gameTimeLeftSeconds <= 0)
+        {
+            // penalty points
+            PointsManager.instance.multiplier = 0; // no points gained ever
+            PointsManager.instance.AddUnscaledPoints(-5*Time.deltaTime);
+
+        }
+
+        timeLeftText.text = string.Format("{0,2}:{1,2}.{2,3}", ((int)(gameTimeLeftSeconds / 60f)).ToString().PadLeft(4,' '), ((int)(gameTimeLeftSeconds % 60f)).ToString().PadLeft(2, '0'), ((int)((gameTimeLeftSeconds - (int)gameTimeLeftSeconds)*1000)).ToString().PadLeft(3, '0'));
+
     }
 
     private IEnumerator ThreeTwoOneGo()
