@@ -29,12 +29,12 @@ public class DriftPoints : MonoBehaviour, IResetable
         pointsDriftLerp = Mathf.Lerp(pointsDriftLerp, pointsDrift, Time.deltaTime / 0.1f);
         pointsAirLerp = Mathf.Lerp(pointsAirLerp, pointsAir, Time.deltaTime / 0.1f);
 
-        if(pointsDriftLerp > 1)
+        if (pointsDriftLerp > 1)
         {
             driftAirText.text = Mathf.RoundToInt(pointsDriftLerp).ToString();
             driftAirText.alpha = Mathf.Lerp(driftAirText.alpha, 1, Time.deltaTime / 0.1f);
         }
-        else if(pointsAirLerp > 1)
+        else if (pointsAirLerp > 1)
         {
             driftAirText.text = Mathf.RoundToInt(pointsAirLerp).ToString();
             driftAirText.alpha = Mathf.Lerp(driftAirText.alpha, 1, Time.deltaTime / 0.1f);
@@ -48,7 +48,7 @@ public class DriftPoints : MonoBehaviour, IResetable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag == "Wall")
+        if (collision.collider.tag == "Wall")
         {
             ResetToInitial();
         }
@@ -58,7 +58,7 @@ public class DriftPoints : MonoBehaviour, IResetable
     void FixedUpdate()
     {
         // dodawanie punktów jesli IsSkidding jest true
-        if (ccn.isSkidding)
+        if (ccn.isSkidding && GameManager.instance.GameState != GameState.Finished)
         {
             // faster you go = more points
             float velFactor = Mathf.Clamp(rb.velocity.magnitude, 0, ccn.maxForwardVelocity) / ccn.maxForwardVelocity;
@@ -70,15 +70,15 @@ public class DriftPoints : MonoBehaviour, IResetable
         }
         else
         {
-            if(pointsDrift > 0)
+            if (pointsDrift > 0)
             {
                 PointsManager.instance.AddUnscaledPoints((int)pointsDrift);
                 lastPointsGained = pointsDrift;
                 pointsDrift = pointsDriftLerp = 0;
             }
         }
-        // dodawanie jesli jest w powietrzu (moze)
-        if (ccn.isInAir)
+        // dodawanie pkt jesli jest w powietrzu
+        if (ccn.isInAir && GameManager.instance.GameState != GameState.Finished)
         {
             pointsAir += 1 * PointsManager.instance.multiplier;
         }

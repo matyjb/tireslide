@@ -37,6 +37,12 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI timeLeftText;
 
+    private float timerInitialFontSize;
+
+    private CameraController camController;
+
+    private Camera camera;
+
     public GameState GameState
     {
         get => _gameState;
@@ -48,6 +54,7 @@ public class GameManager : MonoBehaviour
                 switch (value)
                 {
                     case GameState.Starting:
+                        camController.enabled = true;
                         Time.timeScale = 1;
                         AudioListener.pause = false;
                         // freeze player
@@ -59,20 +66,27 @@ public class GameManager : MonoBehaviour
                         }
                         startingCoroutine = StartCoroutine(ThreeTwoOneGo());
                         gameTimeLeftSeconds = initialGameTimeLeft;
+                        player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = true;
                         break;
                     case GameState.Playing:
+                        camController.enabled = true;
                         Time.timeScale = 1;
                         AudioListener.pause = false;
                         // unfreeze player
                         player.constraints = RigidbodyConstraints.None;
+                        player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = true;
                         break;
                     case GameState.Paused:
+                        camController.enabled = true;
                         Time.timeScale = 0;
                         AudioListener.pause = true;
+                        player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = false;
                         break;
                     case GameState.Finished:
+                        camController.enabled = false;
                         Time.timeScale = 1;
                         AudioListener.pause = false;
+                        player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = false;
                         // unfreeze player
                         player.constraints = RigidbodyConstraints.None;
                         break;
@@ -102,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     public void Reset_performed(InputAction.CallbackContext obj)
     {
-        if (obj.started && GameState == GameState.Playing)
+        if (obj.started && GameState == GameState.Playing || GameState == GameState.Finished)
         {
             foreach (IResetable item in FindObjectsOfType<MonoBehaviour>().OfType<IResetable>())
             {
@@ -112,11 +126,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    void Start()
     {
+        camera = GetComponent<Camera>();
+        camController = GetComponent<CameraController>();
         countdownAudio = GetComponent<AudioSource>();
         GameState = GameState.Starting;
         gameTimeLeftSeconds = initialGameTimeLeft;
+        timerInitialFontSize = timeLeftText.fontSize;
     }
 
     void Awake()
@@ -132,20 +149,28 @@ public class GameManager : MonoBehaviour
         {
             gameTimeLeftSeconds -= Time.deltaTime;
         }
-        if (gameTimeLeftSeconds < 0)
-        {
-            gameTimeLeftSeconds = 0;
-        }
-
-        if(gameTimeLeftSeconds <= 0)
+        if (gameTimeLeftSeconds <= 0)
         {
             // penalty points
             PointsManager.instance.multiplier = 0; // no points gained ever
-            PointsManager.instance.AddUnscaledPoints(-5*Time.deltaTime);
+            PointsManager.instance.AddUnscaledPoints(-5 * Time.deltaTime);
 
+            timeLeftText.text = "FINISH NOW!";
+            timeLeftText.fontSize = timerInitialFontSize - Mathf.Sin(gameTimeLeftSeconds * 5);
         }
-
-        timeLeftText.text = string.Format("{0,2}:{1,2}.{2,3}", ((int)(gameTimeLeftSeconds / 60f)).ToString().PadLeft(4,' '), ((int)(gameTimeLeftSeconds % 60f)).ToString().PadLeft(2, '0'), ((int)((gameTimeLeftSeconds - (int)gameTimeLeftSeconds)*1000)).ToString().PadLeft(3, '0'));
+        else
+        {
+            timeLeftText.fontSize = timerInitialFontSize;
+            timeLeftText.text = string.Format("{0,2}:{1,2}.{2,3}", ((int)(gameTimeLeftSeconds / 60f)).ToString().PadLeft(4, ' '), ((int)(gameTimeLeftSeconds % 60f)).ToString().PadLeft(2, '0'), ((int)((gameTimeLeftSeconds - (int)gameTimeLeftSeconds) * 1000)).ToString().PadLeft(3, '0'));
+        }
+        if (GameState == GameState.Finished)
+        {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 63, Time.deltaTime / 0.5f);
+        }
+        else
+        {
+            camera.fieldOfView = 60;
+        }
 
     }
 

@@ -51,6 +51,7 @@ public class CarControllerNew : MonoBehaviour, IResetable
     private AudioSource tiresSound;
     public bool isSkidding = false;
     public bool isInAir = false;
+    public bool ControlsEnabled = true;
     //public AudioClip engineLow;
     //public AudioClip engineMed;
     //public AudioClip engineHigh;
@@ -104,6 +105,12 @@ public class CarControllerNew : MonoBehaviour, IResetable
     void FixedUpdate()
     {
         isSkidding = false;
+        if (!ControlsEnabled)
+        {
+            handbrakeInput = 0;
+            steerInput = 0;
+            gasbrakeInput = 0;
+        }
         UpdateCarEngineAndSteering();
         UpdateUI();
         ApplyForces();

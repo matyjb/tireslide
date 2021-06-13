@@ -5,6 +5,7 @@ Assets:
  - [dźwięk startu/odliczania](https://freesound.org/people/JustInvoke/sounds/446142/)
  - ![model samochodu](driftCar.png)
  - [dźwięk silnika](https://assetstore.unity.com/packages/audio/sound-fx/transportation/rotary-x8-free-engine-sound-pack-106119)
+ - [wykonanie elementów generatora przy pomocy bezier path creator](https://assetstore.unity.com/packages/tools/utilities/b-zier-path-creator-136082)
 
 
 [Dlaczego TextMeshPro jest w repozytorium i nie jest ignorowane](https://github.com/game-ci/unity-actions/issues/62)
