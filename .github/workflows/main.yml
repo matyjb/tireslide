@@ -45,13 +45,7 @@ jobs:
         with:
           unityVersion: 2021.1.10f1
           targetPlatform: ${{ matrix.targetPlatform }}
-      
-      # upload to github
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-      
+          
       # upload to itch.io
       - uses: josephbmanley/butler-publish-itchio-action@master
         env:
@@ -60,3 +54,10 @@ jobs:
           ITCH_GAME: tireslide
           ITCH_USER: matyjb
           PACKAGE: build/${{ matrix.targetPlatform }}
+      
+      # upload to github
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+      
