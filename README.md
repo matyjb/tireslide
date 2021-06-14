@@ -12,6 +12,7 @@ Assets:
  - [dźwięk zdobycia pkt za drift/skok](https://freesound.org/people/qubodup/sounds/60013/)
  - [dźwięk podczas zdobywania pkt za drift/skok](https://freesound.org/people/Joao_Janz/sounds/482653/)
  - [dźwięk guzików menu](https://freesound.org/people/suntemple/sounds/253172/)
+ - [skrypt śladów opon](https://github.com/Nition/UnitySkidmarks)
 
 
 [Dlaczego TextMeshPro jest w repozytorium i nie jest ignorowane](https://github.com/game-ci/unity-actions/issues/62)
