@@ -5,6 +5,7 @@ using UnityEngine;
 public class x2ScoreGate : MonoBehaviour, IResetable
 {
     private new BoxCollider collider;
+
     // Start is called before the first frame update
     void Start()
     {

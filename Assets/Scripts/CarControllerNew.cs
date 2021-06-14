@@ -49,6 +49,7 @@ public class CarControllerNew : MonoBehaviour, IResetable
 
     private AudioSource engineSound;
     private AudioSource tiresSound;
+    public AudioClip wallBonkClip;
     public bool isSkidding = false;
     public bool isInAir = false;
     public bool ControlsEnabled = true;
@@ -315,6 +316,14 @@ public class CarControllerNew : MonoBehaviour, IResetable
         {
             wheel.EndSkid();
             isSkidding = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Wall")
+        {
+            engineSound.PlayOneShot(wallBonkClip);
         }
     }
 }

@@ -17,6 +17,8 @@ public class DriftPoints : MonoBehaviour, IResetable
     float pointsAirLerp = 0;
 
     float lastPointsGained = 0;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -54,11 +56,12 @@ public class DriftPoints : MonoBehaviour, IResetable
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        bool pointsGained = false;
+        float pitchFactor = 1;
         // dodawanie punktów jesli IsSkidding jest true
-        if (ccn.isSkidding && GameManager.instance.GameState != GameState.Finished)
+        if (ccn.isSkidding && GameManager.instance.GameState == GameState.Playing)
         {
             // faster you go = more points
             float velFactor = Mathf.Clamp(rb.velocity.magnitude, 0, ccn.maxForwardVelocity) / ccn.maxForwardVelocity;
@@ -66,31 +69,43 @@ public class DriftPoints : MonoBehaviour, IResetable
             // bigger angle = more points
             float angleFactor = 1 - Mathf.Clamp(Vector3.Dot(rb.velocity.normalized, transform.forward), 0, 1);
 
-            pointsDrift += 1 * velFactor * angleFactor * PointsManager.instance.multiplier;
+            float points = velFactor * angleFactor * PointsManager.instance.multiplier;
+            pointsGained = points > 0.1f;
+            pitchFactor = 0.9f + velFactor * angleFactor * 0.2f;
+            pointsDrift += points;
         }
         else
         {
-            if (pointsDrift > 0)
+            if (pointsDrift >= 1)
             {
-                PointsManager.instance.AddUnscaledPoints((int)pointsDrift);
+                PointsManager.instance.AddUnscaledPoints((int)pointsDrift, false);
+                PointsManager.instance.audioSourceNormal.PlayOneShot(PointsManager.instance.driftAirPointsGainAudio, 0.5f);
                 lastPointsGained = pointsDrift;
                 pointsDrift = pointsDriftLerp = 0;
             }
         }
         // dodawanie pkt jesli jest w powietrzu
-        if (ccn.isInAir && GameManager.instance.GameState != GameState.Finished)
+        if (ccn.isInAir && GameManager.instance.GameState == GameState.Playing)
         {
-            pointsAir += 1 * PointsManager.instance.multiplier;
+            float points = PointsManager.instance.multiplier;
+            pointsGained = points > 0.1f;
+            pitchFactor = 1 + points / 10f;
+            pointsAir += points;
         }
         else
         {
-            if (pointsAir > 0)
+            if (pointsAir >= 1)
             {
-                PointsManager.instance.AddUnscaledPoints((int)pointsAir);
+                PointsManager.instance.AddUnscaledPoints((int)pointsAir, false);
+                PointsManager.instance.audioSourceNormal.PlayOneShot(PointsManager.instance.driftAirPointsGainAudio, 0.5f);
                 lastPointsGained = pointsAir;
                 pointsAir = pointsAirLerp = 0;
             }
         }
+
+        PointsManager.instance.audioSourceDriftAirCombo.volume = pointsGained && PointsManager.instance.multiplier != 0 ? 1 : 0;
+        PointsManager.instance.audioSourceDriftAirCombo.pitch = pitchFactor;
+
     }
 
     public void ResetToInitial()

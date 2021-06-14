@@ -153,7 +153,8 @@ public class GameManager : MonoBehaviour
         {
             // penalty points
             PointsManager.instance.multiplier = 0; // no points gained ever
-            PointsManager.instance.AddUnscaledPoints(-5 * Time.deltaTime);
+            if(GameState != GameState.Finished)
+                PointsManager.instance.AddUnscaledPoints(-5 * Time.deltaTime);
 
             timeLeftText.text = "FINISH NOW!";
             timeLeftText.fontSize = timerInitialFontSize - Mathf.Sin(gameTimeLeftSeconds * 5);

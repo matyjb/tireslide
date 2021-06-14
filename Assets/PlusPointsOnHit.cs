@@ -6,6 +6,8 @@ public class PlusPointsOnHit : MonoBehaviour, IResetable
 {
     public int points = 15;
     private new BoxCollider collider;
+
+    
     // Start is called before the first frame update
     void Start()
     {
