@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8136984130471262445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8136984130471262447}
+  - component: {fileID: 8136984130471262446}
+  m_Layer: 0
+  m_Name: Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8136984130471262447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8136984130471262445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 28.43, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8136984130471262446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8136984130471262445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661d6f9cf04a2f04b873b7f771717271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startBlockPrefab: {fileID: 245348239059889812, guid: a7e537d4e16fc134b9903fdd87f4b8b5, type: 3}
+  blocksPrefabs:
+  - {fileID: 3067343534013206984, guid: aca7dd6f7e27fee469ed04276f5e3842, type: 3}
+  - {fileID: 3958723574185485665, guid: 32b48b30344c5934db8c245f34a62d4c, type: 3}
+  - {fileID: 2796319316744954786, guid: 7dd00682146fa4d4f9d601f56321a8a9, type: 3}
+  - {fileID: 825669767626137207, guid: 04066e3f8ac2e0540a361163c39081a9, type: 3}
+  - {fileID: 3738024429878215936, guid: 6266160c73145e14f8496365131ce6ed, type: 3}
+  - {fileID: 3562269352149873876, guid: 0b30c7204f2ef80448e143c5514af9c4, type: 3}
+  - {fileID: 8135707137488620313, guid: 44abe3e064c85d6498f9262233cf7a4c, type: 3}
+  length: 10
