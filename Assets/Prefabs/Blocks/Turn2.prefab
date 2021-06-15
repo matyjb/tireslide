@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 2849133578938797002}
   - component: {fileID: 5513847391907378463}
   - component: {fileID: 1105514869940229457}
+  - component: {fileID: 4285472998582465316}
   m_Layer: 0
   m_Name: Turn2
   m_TagString: ground
@@ -147,12 +148,25 @@ MonoBehaviour:
   autoUpdate: 1
   roadWidthStart: 10
   roadWidthEnd: 10
-  thickness: 0.2
+  thickness: 0.5
   flattenSurface: 0
   roadMaterial: {fileID: 2100000, guid: 3cf3e1f4687c42243b8742cf91a2dfcb, type: 2}
   undersideMaterial: {fileID: 2100000, guid: e918278db28d0d94d92bd6fe03d657ce, type: 2}
   textureTiling: 4
   meshHolder: {fileID: 0}
+--- !u!65 &4285472998582465316
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2796319316744954786}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 39.729042, y: 3, z: 39.73328}
+  m_Center: {x: 5.135479, y: 1, z: 5.13336}
 --- !u!1 &8626287811210979383
 GameObject:
   m_ObjectHideFlags: 0

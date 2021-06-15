@@ -18,17 +18,17 @@ public class MapGenerator : MonoBehaviour
         if (mapObjects != null)
             DestroyMap();
         mapObjects = new Stack<GameObject>();
+        Stack<Connector> connectors = new Stack<Connector>();
+        Connector usedConnector = null;
+
         Random.InitState(seed);
         mapObjects.Push(Instantiate(startBlockPrefab, transform));
         mapObjects.Peek().transform.localPosition = Vector3.zero;
         mapObjects.Peek().transform.localRotation = Quaternion.identity;
 
-        Connector usedConnector = null;
-
         for (int i = 0; i < length; i++)
         {
-            Stack<Connector> connectors = new Stack<Connector>();
-            List<Connector> tmp = new List<Connector>(mapObjects.Peek().GetComponentsInChildren<Connector>());
+            List<Connector> tmp = mapObjects.Peek().GetComponentsInChildren<Connector>().ToList();
             tmp.Remove(usedConnector);
             ShuffleList(tmp);
             //Debug.Log("Liczba connectorow ostatniego klocka: " + tmp.Count.ToString());
@@ -39,29 +39,82 @@ public class MapGenerator : MonoBehaviour
 
             List<GameObject> nextPossibleBlocks = blocksPrefabs.Where((GameObject g) => g.GetComponentsInChildren<Connector>().Where((Connector c) => c.type == connectors.Peek().type).Count() > 0).ToList();
             //Debug.Log("Liczba mo¿liwych nastêpnych klockow: " + nextPossibleBlocks.Count.ToString());
+            bool isOverlapping = false;
+            do
+            {
+                if(nextPossibleBlocks.Count == 0)
+                {
+                    Connector c = connectors.Pop();
+                    if(c.gameObject != connectors.Peek().gameObject)
+                    {
+                        // to byl ostatni connector z ostatnie klocka
+                        // ostatni klocek okazal sie komplemtnie nieprawid³owy
+                        // trzeba go usunaæ
+                        DestroyImmediate(mapObjects.Pop());
+                    }
+                    i--;
+                    if(i < 0)
+                    {
+                        Debug.LogError("Could not generate map");
+                        throw new System.Exception("Could not generate map");
+                    }
+                    break;
+                }
+                int selectedNextGameObjectIndex = Random.Range(0, nextPossibleBlocks.Count);
+                GameObject selectedNextGameObject = Instantiate(nextPossibleBlocks[selectedNextGameObjectIndex], transform);
+                //Debug.Log("Wybrany: " + selectedNextGameObject.name);
 
-            GameObject selectedNextGameObject = Instantiate(nextPossibleBlocks[Random.Range(0, nextPossibleBlocks.Count)],transform);
-            //Debug.Log("Wybrany: " + selectedNextGameObject.name);
+                Vector3 lastBlockConnectorPos = connectors.Peek().transform.position;
+                Quaternion lastBlockConnectorRot = connectors.Peek().transform.rotation;
 
-            Vector3 lastBlockConnectorPos = connectors.Peek().transform.position;
-            Quaternion lastBlockConnectorRot = connectors.Peek().transform.rotation;
+                List<Connector> nextConnectors = selectedNextGameObject.GetComponentsInChildren<Connector>().ToList();
+                //Debug.Log("Liczba connectorow nastepnego klocka: " + nextConnectors.Count.ToString());
+                List<Connector> tmpWhereConnector = nextConnectors.Where((Connector c) => c.type == connectors.Peek().type).ToList();
+                //Debug.Log("Liczba connectorow kompatybilnych z poprzednim connectorem: " + tmpWhereConnector.Count.ToString());
+                Connector nextConnector = tmpWhereConnector[Random.Range(0, tmpWhereConnector.Count)];
 
-            List<Connector> nextConnectors = selectedNextGameObject.GetComponentsInChildren<Connector>().ToList();
-            //Debug.Log("Liczba connectorow nastepnego klocka: " + nextConnectors.Count.ToString());
-            List<Connector> tmpWhereConnector = nextConnectors.Where((Connector c) => c.type == connectors.Peek().type).ToList();
-            //Debug.Log("Liczba connectorow kompatybilnych z poprzednim connectorem: " + tmpWhereConnector.Count.ToString());
-            Connector nextConnector = tmpWhereConnector[Random.Range(0, tmpWhereConnector.Count)];
+                Vector3 nextBlockConnectorPos = nextConnector.transform.position;
+                Quaternion nextBlockConnectorRot = nextConnector.transform.rotation * Quaternion.Euler(0, 180f, 0);
 
-            Vector3 nextBlockConnectorPos = nextConnector.transform.position;
-            Quaternion nextBlockConnectorRot = nextConnector.transform.rotation * Quaternion.Euler(0, 180f, 0);
 
-            usedConnector = nextConnector;
+                selectedNextGameObject.transform.position = selectedNextGameObject.transform.position + lastBlockConnectorPos - nextBlockConnectorPos;
+                RotateAround(selectedNextGameObject.transform, connectors.Peek().transform.position, selectedNextGameObject.transform.rotation * lastBlockConnectorRot * Quaternion.Inverse(nextBlockConnectorRot));
 
-            // TODO: check if no clipping
+                // TODO: check if no overlap
+                isOverlapping = false;
+                foreach (var mo in mapObjects)
+                {
+                    BoxCollider box1 = mo.GetComponent<BoxCollider>(); //first collider
+                    BoxCollider box2 = selectedNextGameObject.GetComponent<BoxCollider>(); //second collider
+                    float distance; //how far they need to move apart
+                    Vector3 direction; //which direction they need to move apart in
+                    bool hasCollided = Physics.ComputePenetration(box1, box1.transform.position, box1.transform.rotation,
+                                                            box2, box2.transform.position, box2.transform.rotation,
+                                                            out direction, out distance);
+                    //if (mo.GetComponent<BoxCollider>().bounds.Intersects(selectedNextGameObject.GetComponent<BoxCollider>().bounds))
+                    if(hasCollided)
+                    {
+                        isOverlapping = true;
+                        //Debug.Log("OVERLAP!");
+                        //Debug.Log(mo.name);
+                        //Debug.Log(selectedNextGameObject.name);
 
-            mapObjects.Push(selectedNextGameObject);
-            selectedNextGameObject.transform.position = selectedNextGameObject.transform.position + lastBlockConnectorPos - nextBlockConnectorPos;
-            RotateAround(selectedNextGameObject.transform, connectors.Peek().transform.position, selectedNextGameObject.transform.rotation * lastBlockConnectorRot * Quaternion.Inverse(nextBlockConnectorRot));
+                        break;
+                    }
+
+                }
+                //isOverlapping = false;
+                if (isOverlapping)
+                {
+                    nextPossibleBlocks.RemoveAt(selectedNextGameObjectIndex);
+                    DestroyImmediate(selectedNextGameObject);
+                }
+                else
+                {
+                    usedConnector = nextConnector;
+                    mapObjects.Push(selectedNextGameObject);
+                }
+            } while (isOverlapping);
         }
 
         //gen meshes
