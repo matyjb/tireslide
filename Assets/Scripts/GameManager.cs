@@ -11,7 +11,8 @@ public enum GameState
     Playing,
     Paused,
     Finished,
-    Starting
+    Starting,
+    Menu,
 }
 
 public class GameManager : MonoBehaviour
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     private Camera camera;
 
+    public MapGenerator generator;
+
     public GameState GameState
     {
         get => _gameState;
@@ -54,6 +57,9 @@ public class GameManager : MonoBehaviour
                 switch (value)
                 {
                     case GameState.Starting:
+                        // move it to menu
+                        generator.Generate(Random.Range(0,int.MaxValue));
+                        //
                         camController.enabled = true;
                         Time.timeScale = 1;
                         AudioListener.pause = false;
@@ -67,6 +73,18 @@ public class GameManager : MonoBehaviour
                         startingCoroutine = StartCoroutine(ThreeTwoOneGo());
                         gameTimeLeftSeconds = initialGameTimeLeft;
                         player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = true;
+
+                        GameObject respawn = GameObject.FindGameObjectWithTag("Respawn");
+                        if (respawn != null)
+                        {
+                            player.transform.position = respawn.transform.position;
+                            player.transform.rotation = respawn.transform.rotation;
+                        }
+                        else
+                        {
+                            Debug.LogError("Respawn position not found");
+                        }
+
                         break;
                     case GameState.Playing:
                         camController.enabled = true;

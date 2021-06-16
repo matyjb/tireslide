@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 4673328859843512181}
   - component: {fileID: 218550757486798651}
   - component: {fileID: -5661629069135542673}
+  - component: {fileID: 6518593465212694554}
   m_Layer: 0
   m_Name: WideToNarrow
   m_TagString: ground
@@ -162,11 +163,28 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3067343534013206984}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 20, y: 3, z: 29.5}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6518593465212694554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3067343534013206984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2405cd9d764ed6a4baebdb1cf26fab4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabsToSpawnAlongPathPickups:
+  - {fileID: 2106313292434876868, guid: 7ae2d74181806ff4b9ab2a8a7b06d645, type: 3}
+  prefabsToSpawnAlongPathGates:
+  - {fileID: 2424601970428032678, guid: ecf23b49161409b4ba95d69e2866f2d0, type: 3}
+  - {fileID: 2424601970428032678, guid: 22a51616552eb18469dd38fea00a859a, type: 3}
 --- !u!1 &7799509499009898649
 GameObject:
   m_ObjectHideFlags: 0

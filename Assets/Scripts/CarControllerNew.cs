@@ -6,9 +6,6 @@ using UnityEngine.InputSystem;
 
 public class CarControllerNew : MonoBehaviour, IResetable
 {
-    private Vector3 resetPos;
-    private Quaternion resetRot;
-
     private Rigidbody rb;
     public WheelController rightFrontWheel;
     public WheelController leftFrontWheel;
@@ -61,8 +58,6 @@ public class CarControllerNew : MonoBehaviour, IResetable
 
     void Start()
     {
-        resetPos = transform.position;
-        resetRot = transform.rotation;
         rb = GetComponent<Rigidbody>();
         engineSound = GetComponents<AudioSource>()[0];
         tiresSound = GetComponents<AudioSource>()[1];
@@ -94,8 +89,6 @@ public class CarControllerNew : MonoBehaviour, IResetable
 
     public void ResetToInitial()
     {
-        transform.position = resetPos;
-        transform.rotation = resetRot;
         rb.velocity *= 0;
         rb.angularVelocity *= 0;
 
