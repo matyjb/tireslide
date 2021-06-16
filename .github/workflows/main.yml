@@ -56,8 +56,8 @@ jobs:
           PACKAGE: build/${{ matrix.targetPlatform }}
       
       # upload to github
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+#       - uses: actions/upload-artifact@v2
+#         with:
+#           name: Build-${{ matrix.targetPlatform }}
+#           path: build/${{ matrix.targetPlatform }}
       
