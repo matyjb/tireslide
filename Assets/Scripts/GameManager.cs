@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public CanvasGroup pauseCanvas;
     public CanvasGroup menuCanvas;
     public TextMeshProUGUI seedText;
+    public TextMeshProUGUI seedPauseText;
     public CanvasGroup gameCanvas;
 
     public GameState _gameState;
@@ -48,6 +49,8 @@ public class GameManager : MonoBehaviour
     private Camera camera;
 
     public MapGenerator generator;
+
+    private int currentSeed = 0;
 
     public GameState GameState
     {
@@ -86,17 +89,7 @@ public class GameManager : MonoBehaviour
                         startingCoroutine = StartCoroutine(ThreeTwoOneGo());
                         gameTimeLeftSeconds = initialGameTimeLeft;
                         player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = true;
-
-                        GameObject respawn = GameObject.FindGameObjectWithTag("Respawn");
-                        if (respawn != null)
-                        {
-                            player.transform.position = respawn.transform.position;
-                            player.transform.rotation = respawn.transform.rotation;
-                        }
-                        else
-                        {
-                            Debug.LogError("Respawn position not found");
-                        }
+                        PlaceCarOnStart();
 
                         break;
                     case GameState.Playing:
@@ -150,6 +143,7 @@ public class GameManager : MonoBehaviour
         if (obj.started && GameState == GameState.Playing || GameState == GameState.Finished)
         {
             GameState = GameState.Starting;
+            PlaceCarOnStart();
         }
     }
 
@@ -161,20 +155,43 @@ public class GameManager : MonoBehaviour
 
     public void GenerateNewMapRandom()
     {
-        generator.Generate(Random.Range(int.MinValue, int.MaxValue));
-        StartCoroutine(ChangeStateAfter(GameState.Starting));
+        GameState = GameState.Starting;
+        currentSeed = Random.Range(0, int.MaxValue);
+        generator.Generate(currentSeed);
+        PlaceCarOnStart();
+        seedPauseText.text = currentSeed.ToString();
+        //StartCoroutine(ChangeStateAfter(GameState.Starting));
     }
 
     public void GenerateNewMapFromSeed()
     {
-        generator.Generate(seedText.text.GetHashCode());
-        StartCoroutine(ChangeStateAfter(GameState.Starting));
+        GameState = GameState.Starting;
+        currentSeed = seedText.text.GetHashCode();
+        generator.Generate(currentSeed);
+        PlaceCarOnStart();
+        seedPauseText.text = currentSeed.ToString();
+        //StartCoroutine(ChangeStateAfter(GameState.Starting));
+    }
+
+    public void PlaceCarOnStart()
+    {
+        GameObject respawn = GameObject.FindGameObjectWithTag("Respawn");
+        if (respawn != null)
+        {
+            player.transform.position = respawn.transform.position;
+            player.transform.rotation = respawn.transform.rotation;
+        }
+        else
+        {
+            Debug.LogWarning("Respawn position not found");
+        }
     }
 
     public void GoToMenu()
     {
-        Time.timeScale = 1; // fix for WaitForSeconds in ChangeStateAfter
-        StartCoroutine(ChangeStateAfter(GameState.Menu));
+        GameState = GameState.Menu;
+        //Time.timeScale = 1; // fix for WaitForSeconds in ChangeStateAfter
+        //StartCoroutine(ChangeStateAfter(GameState.Menu));
     }
 
     void Start()
