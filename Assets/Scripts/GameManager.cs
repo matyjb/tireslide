@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public Rigidbody player;
 
     public CanvasGroup pauseCanvas;
+    public CanvasGroup menuCanvas;
+    public TextMeshProUGUI seedText;
+    public CanvasGroup gameCanvas;
 
     private GameState _gameState;
 
@@ -56,10 +59,20 @@ public class GameManager : MonoBehaviour
                 // gamestate changed!
                 switch (value)
                 {
+                    case GameState.Menu:
+                        camController.enabled = true;
+                        Time.timeScale = 1;
+                        AudioListener.pause = false;
+                        // freeze player
+                        player.constraints = RigidbodyConstraints.FreezeAll;
+                        player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = false;
+
+                        break;
                     case GameState.Starting:
-                        // move it to menu
-                        generator.Generate(Random.Range(0,int.MaxValue));
-                        //
+                        foreach (IResetable item in FindObjectsOfType<MonoBehaviour>().OfType<IResetable>())
+                        {
+                            item.ResetToInitial();
+                        }
                         camController.enabled = true;
                         Time.timeScale = 1;
                         AudioListener.pause = false;
@@ -136,12 +149,26 @@ public class GameManager : MonoBehaviour
     {
         if (obj.started && GameState == GameState.Playing || GameState == GameState.Finished)
         {
-            foreach (IResetable item in FindObjectsOfType<MonoBehaviour>().OfType<IResetable>())
-            {
-                item.ResetToInitial();
-            }
             GameState = GameState.Starting;
         }
+    }
+
+    public IEnumerator ChangeStateAfter(GameState nextState)
+    {
+        yield return new WaitForSeconds(0.1f);
+        GameState = nextState;
+    }
+
+    public void GenerateNewMapRandom()
+    {
+        generator.Generate(Random.Range(int.MinValue, int.MaxValue));
+        StartCoroutine(ChangeStateAfter(GameState.Starting));
+    }
+
+    public void GenerateNewMapFromSeed()
+    {
+        generator.Generate(seedText.text.GetHashCode());
+        StartCoroutine(ChangeStateAfter(GameState.Starting));
     }
 
     void Start()
@@ -149,7 +176,7 @@ public class GameManager : MonoBehaviour
         camera = GetComponent<Camera>();
         camController = GetComponent<CameraController>();
         countdownAudio = GetComponent<AudioSource>();
-        GameState = GameState.Starting;
+        GameState = GameState.Menu;
         gameTimeLeftSeconds = initialGameTimeLeft;
         timerInitialFontSize = timeLeftText.fontSize;
     }
@@ -163,6 +190,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         pauseCanvas.alpha = Mathf.Lerp(pauseCanvas.alpha, GameState == GameState.Paused ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        pauseCanvas.interactable = GameState == GameState.Paused;
+        menuCanvas.alpha = Mathf.Lerp(menuCanvas.alpha, GameState == GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        menuCanvas.interactable = GameState == GameState.Menu;
+        //gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState != GameState.Finished && GameState != GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState != GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        gameCanvas.interactable = GameState == GameState.Playing;
         if (GameState == GameState.Playing)
         {
             gameTimeLeftSeconds -= Time.deltaTime;

@@ -15,7 +15,9 @@ public class PointsManager : MonoBehaviour, IResetable
     public float Points { get; private set; } = 0;
     private float pointsFollower = 0;
 
+    [HideInInspector]
     public AudioSource audioSourceNormal;
+    [HideInInspector]
     public AudioSource audioSourceDriftAirCombo;
     public AudioClip bonusPointsAudio;
     public AudioClip multiplierAudio;
