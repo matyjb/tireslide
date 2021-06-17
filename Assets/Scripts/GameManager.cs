@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI seedText;
     public CanvasGroup gameCanvas;
 
-    private GameState _gameState;
+    public GameState _gameState;
 
     private Coroutine startingCoroutine;
 
@@ -171,6 +171,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ChangeStateAfter(GameState.Starting));
     }
 
+    public void GoToMenu()
+    {
+        Time.timeScale = 1; // fix for WaitForSeconds in ChangeStateAfter
+        StartCoroutine(ChangeStateAfter(GameState.Menu));
+    }
+
     void Start()
     {
         camera = GetComponent<Camera>();
@@ -190,12 +196,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         pauseCanvas.alpha = Mathf.Lerp(pauseCanvas.alpha, GameState == GameState.Paused ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
-        pauseCanvas.interactable = GameState == GameState.Paused;
+        pauseCanvas.interactable = pauseCanvas.blocksRaycasts = GameState == GameState.Paused;
         menuCanvas.alpha = Mathf.Lerp(menuCanvas.alpha, GameState == GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
-        menuCanvas.interactable = GameState == GameState.Menu;
+        menuCanvas.interactable = menuCanvas.blocksRaycasts = GameState == GameState.Menu;
         //gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState != GameState.Finished && GameState != GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
         gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState != GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
-        gameCanvas.interactable = GameState == GameState.Playing;
+        gameCanvas.interactable = gameCanvas.blocksRaycasts = GameState == GameState.Playing;
         if (GameState == GameState.Playing)
         {
             gameTimeLeftSeconds -= Time.deltaTime;
