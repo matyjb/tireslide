@@ -7,11 +7,16 @@ public class PlusPointsOnHit : MonoBehaviour, IResetable
     public int points = 15;
     private new BoxCollider collider;
 
-    
+    private AudioSource audioSource;
+
+    private ParticleSystem[] confettis;
+
     // Start is called before the first frame update
     void Start()
     {
         collider = GetComponent<BoxCollider>();
+        TryGetComponent(out audioSource);
+        confettis = GetComponentsInChildren<ParticleSystem>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,6 +25,15 @@ public class PlusPointsOnHit : MonoBehaviour, IResetable
         {
             collider.enabled = false;
             PointsManager.instance.AddScaledPoints(points);
+            if(audioSource != null)
+            {
+                audioSource.Play();
+                // confetti anim start
+                foreach (var item in confettis)
+                {
+                    item.Play();
+                }
+            }
         }
     }
 
