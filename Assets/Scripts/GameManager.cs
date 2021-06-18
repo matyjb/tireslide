@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI seedText;
     public TextMeshProUGUI seedPauseText;
     public CanvasGroup gameCanvas;
+    public CanvasGroup finishCanvas;
 
     public GameState _gameState;
 
@@ -51,6 +52,9 @@ public class GameManager : MonoBehaviour
     public MapGenerator generator;
 
     private int currentSeed = 0;
+
+    public TextMeshProUGUI scoreFinishText;
+    public TextMeshProUGUI seedFinishText;
 
     public GameState GameState
     {
@@ -113,6 +117,10 @@ public class GameManager : MonoBehaviour
                         player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = false;
                         // unfreeze player
                         player.constraints = RigidbodyConstraints.None;
+
+                        scoreFinishText.text = string.Format("Score: {0}", Mathf.RoundToInt(PointsManager.instance.Points).ToString());
+                        seedFinishText.text = string.Format("Seed: {0}", currentSeed.ToString());
+
                         break;
                 }
                 _gameState = value;
@@ -140,11 +148,8 @@ public class GameManager : MonoBehaviour
 
     public void Reset_performed(InputAction.CallbackContext obj)
     {
-        if (obj.started && GameState == GameState.Playing || GameState == GameState.Finished)
-        {
-            GameState = GameState.Starting;
-            PlaceCarOnStart();
-        }
+        if(obj.started)
+            RestartGame();
     }
 
     public IEnumerator ChangeStateAfter(GameState nextState)
@@ -190,8 +195,15 @@ public class GameManager : MonoBehaviour
     public void GoToMenu()
     {
         GameState = GameState.Menu;
-        //Time.timeScale = 1; // fix for WaitForSeconds in ChangeStateAfter
-        //StartCoroutine(ChangeStateAfter(GameState.Menu));
+    }
+
+    public void RestartGame()
+    {
+        if (GameState == GameState.Playing || GameState == GameState.Finished)
+        {
+            GameState = GameState.Starting;
+            PlaceCarOnStart();
+        }
     }
 
     void Start()
@@ -216,9 +228,10 @@ public class GameManager : MonoBehaviour
         pauseCanvas.interactable = pauseCanvas.blocksRaycasts = GameState == GameState.Paused;
         menuCanvas.alpha = Mathf.Lerp(menuCanvas.alpha, GameState == GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
         menuCanvas.interactable = menuCanvas.blocksRaycasts = GameState == GameState.Menu;
-        //gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState != GameState.Finished && GameState != GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
-        gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState != GameState.Menu ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
-        gameCanvas.interactable = gameCanvas.blocksRaycasts = GameState == GameState.Playing;
+        gameCanvas.alpha = Mathf.Lerp(gameCanvas.alpha, GameState == GameState.Playing || GameState == GameState.Starting ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        gameCanvas.interactable = gameCanvas.blocksRaycasts = GameState == GameState.Playing || GameState == GameState.Starting;
+        finishCanvas.alpha = Mathf.Lerp(finishCanvas.alpha, GameState == GameState.Finished ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        finishCanvas.interactable = finishCanvas.blocksRaycasts = GameState == GameState.Finished;
         if (GameState == GameState.Playing)
         {
             gameTimeLeftSeconds -= Time.deltaTime;
