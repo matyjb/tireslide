@@ -1,9 +1,69 @@
-Tireslide
+# Tireslide
+1. [Opis](#Opis)
+2. [Założenia gry](#Założenia-gry)
+3. [Główne mechaniki](#Główne-mechaniki)
+    - [Generator tras](#Generator-tras)
+    - [System punktowy](#System-punktowy)
+4. [Sterowanie](#Sterowanie)
+    - [Klawiatura](#Klawiatura)
+    - [Gamepad](#Gamepad-(PS/XBOX))
+5. [Użyte assety](#Użyte-assety)
 
-Assets:
+## Opis
+Gatunek: wyścigowa
+
+Gracz ma za zadanie zdobyć jak najwiekszą ilość punktów w wyznaczonym czasie na generowanych losowo trasach. Przy pomocy samochodu do driftu zdobywa punkty poprzez wykonywanie poślizgów lub przejeżdzanie przez bramki lub zderzanie się z obiektami za które można zdobyć premie punktową.
+
+## Założenia gry
+Za wykonywane poślizgi są zdobywane punkty. Na ilość punktów zdobywtych wpływa kąt poslizgu oraz prędkość. Jeśli gracz zderzy się ze ścianą punkty za poślizg są anulowane. Zdobywane są tylko jeśli pomyślnie zakończy poślizg.
+
+Na trasie można napotkać premie punktowe w postaci bramek oraz czerwonych pudełek. Za przejazd przez bramkę lub zderzenie się z pudełkami gracz jest nagradzany natychmiastowo punktami.
+
+Gracz musi ukończyć trasę w wyznaczonym limicie czasowym. Jeśli limit czasu upłynie od wyniku punktów są odejmowane punkty wraz z upływem czasu. Także gracz nie może zdobywać dodatkowych punktów.
+
+Istnieje mnożnik punktów, który można zwiększyć przejeżdzając przez bramke mnożnika. Mnożnik zostaje zwiększony o 1 na 10 sekund. Wszystkie punkty, które są zdobywane przez gracza są mnożone przez aktualny mnożnik. Po upływie czasu mnożnik wynosi 0 co skutkuje brakiem możliwości zdobywaniem punktów tak jak to było wspomniane wyżej.
+
+## Główne mechaniki
+### Generator tras
+klocki
+łączniki
+hitboxy sprawdzajace nakladanie sieklockow
+### System punktowy
+drift 
+bonus bramka
+x2 bramka
+pudelka
+
+## Sterowanie
+### Klawiatura
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Up_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/W_Key_Dark.png"> - przyspieszenie
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Left_Key_Dark.png">i<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Right_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/A_Key_Dark.png">i<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/D_Key_Dark.png"> - kierowanie
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Down_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/S_Key_Dark.png"> - hamulec/wsteczny
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Space_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Ctrl_Key_Dark.png"> - hamulec ręczny
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Del_Key_Dark.png"> - restart
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Esc_Key_Dark.png"> - pauza
+
+### Gamepad (PS/XBOX)
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_R2.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_RT.png"> - przyspieszenie
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_Left_Stick.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_Left_Stick.png"> - kierowanie
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_L2.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_LT.png"> - hamulec/wsteczny
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_R1.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_RB.png"> - hamulec ręczny
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_Triangle.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_Y.png"> - restart
+- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_Options.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_Menu.png"> - pauza
+
+
+## Co może być dodane
+ - Tabele wyników graczy dla każdej z tras
+ - Personalizacja wyglądu samochodu, zarówno malowanie jak i model
+ - Edytor tras
+ - Więcej elementów do generatora tras (skoki, rampy, droga z dziurami etc.)
+ - Więcej obiektów do generacji na trasie (inne pudełka, bramki, strefy driftu etc)
+
+
+## Użyte assety
  - [dźwięk opon](https://randyol.home.xs4all.nl/wavgeluiden/wav_geluiden.htm)
  - [dźwięk startu/odliczania](https://freesound.org/people/JustInvoke/sounds/446142/)
- - ![model samochodu](driftCar.png)
+ - <img style="height: 60px; vertical-align: middle;" src="driftCar.png">
  - [dźwięk silnika](https://assetstore.unity.com/packages/audio/sound-fx/transportation/rotary-x8-free-engine-sound-pack-106119)
  - [wykonanie elementów generatora przy pomocy bezier path creator](https://assetstore.unity.com/packages/tools/utilities/b-zier-path-creator-136082)
  - [dźwięk kostek](https://freesound.org/people/AxelSpeller/sounds/369746/)
