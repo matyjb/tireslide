@@ -36,20 +36,20 @@ pudelka
 
 ## Sterowanie
 ### Klawiatura
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Up_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/W_Key_Dark.png"> - przyspieszenie
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Left_Key_Dark.png">i<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Right_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/A_Key_Dark.png">i<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/D_Key_Dark.png"> - kierowanie
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Down_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/S_Key_Dark.png"> - hamulec/wsteczny
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Space_Key_Dark.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Ctrl_Key_Dark.png"> - hamulec ręczny
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Del_Key_Dark.png"> - restart
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Keyboard_Mouse/Dark/Esc_Key_Dark.png"> - pauza
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Up_Key_Dark.png">/<img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/W_Key_Dark.png"> - przyspieszenie</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Left_Key_Dark.png">i<img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Right_Key_Dark.png">/<img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/A_Key_Dark.png">i<img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/D_Key_Dark.png"> - kierowanie</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Arrow_Down_Key_Dark.png">/<img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/S_Key_Dark.png"> - hamulec/wsteczny</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Space_Key_Dark.png">/<img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Ctrl_Key_Dark.png"> - hamulec ręczny</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Del_Key_Dark.png"> - restart</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/Keyboard_Mouse/Dark/Esc_Key_Dark.png"> - pauza</td></tr></table>
 
 ### Gamepad (PS/XBOX)
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_R2.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_RT.png"> - przyspieszenie
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_Left_Stick.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_Left_Stick.png"> - kierowanie
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_L2.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_LT.png"> - hamulec/wsteczny
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_R1.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_RB.png"> - hamulec ręczny
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_Triangle.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_Y.png"> - restart
-- <img style="width: 30px; vertical-align: middle;" src="Key_Prompts/PS4/PS4_Options.png">/<img style="width: 30px; vertical-align: middle;" src="Key_Prompts/Xbox One/XboxOne_Menu.png"> - pauza
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/PS4/PS4_R2.png">/<img width="30px" src="Key_Prompts/Xbox One/XboxOne_RT.png"> - przyspieszenie</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/PS4/PS4_Left_Stick.png">/<img width="30px" src="Key_Prompts/Xbox One/XboxOne_Left_Stick.png"> - kierowanie</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/PS4/PS4_L2.png">/<img width="30px" src="Key_Prompts/Xbox One/XboxOne_LT.png"> - hamulec/wsteczny</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/PS4/PS4_R1.png">/<img width="30px" src="Key_Prompts/Xbox One/XboxOne_RB.png"> - hamulec ręczny</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/PS4/PS4_Triangle.png">/<img width="30px" src="Key_Prompts/Xbox One/XboxOne_Y.png"> - restart</td></tr></table>
+- <table><tr><td valign="middle"><img width="30px" src="Key_Prompts/PS4/PS4_Options.png">/<img width="30px" src="Key_Prompts/Xbox One/XboxOne_Menu.png"> - pauza</td></tr></table>
 
 
 ## Co może być dodane

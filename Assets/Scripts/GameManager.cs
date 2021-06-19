@@ -171,7 +171,10 @@ public class GameManager : MonoBehaviour
     public void GenerateNewMapFromSeed()
     {
         GameState = GameState.Starting;
-        currentSeed = seedText.text.GetHashCode();
+        if(!int.TryParse(seedText.text, out currentSeed))
+        {
+            currentSeed = seedText.text.GetHashCode();
+        }
         generator.Generate(currentSeed);
         PlaceCarOnStart();
         seedPauseText.text = currentSeed.ToString();
