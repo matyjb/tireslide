@@ -39,7 +39,7 @@ Ponieważ, że generowanie oraz dobieranie elementów są losowe to może zdarzy
 
 ![zfight](readmeimg/zfight.png)
 
-Jest to rozwiązane dodanie do każdego elementu BoxCollider'a, który następnie jest sprawdzany czy nie nakłada się z innymi elementami. Jeśli się nakłada algorytm próbuje ustawić element inaczej używając innego łącznika elementu (o ile takie są), jeśli nadal występuje taka sytuacja dobierany jest inny element. Jeśli nie ma innych możliwych elementów algorytm wraca.
+Jest to rozwiązane dodaniem do każdego elementu BoxCollider'a, który następnie jest sprawdzany czy nie nakłada się z innymi elementami. Jeśli się nakłada algorytm próbuje ustawić element inaczej używając innego łącznika elementu (o ile takie są), jeśli nadal występuje taka sytuacja dobierany jest inny element. Jeśli nie ma innych możliwych elementów algorytm wraca. Algorytm przypomina w działaniu algorytm przeszukiwania drzewa binarnego.
 ### System punktowy
 Gracz może zdobywać punkty na kilka sposobów:
 - za przejeżdzanie przez brami
