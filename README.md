@@ -28,6 +28,7 @@ Istnieje mnożnik punktów, który można zwiększyć przejeżdzając przez bram
 ## Główne mechaniki
 ### Generator tras
 Generator generuje trase z dostępnych obecnie 8 elementów drogi.
+
 ![elementy](/readmeimg/elements.png)
 
 Każdy z elementów jest wymodelowany na podstawie krzywej Beziera. Na końcach tej krzywej znajdują się łączniki choć ich pozycja nie jest uzależniona od tego. Łączniki mogą znajdować się w dowolnym miejscu i w dowolnej ilości. W tym przypadku dla 8 podstawowych elementów każdy z nich ma po dwa łączniki na końcach krzywych Beziera o odpowiednich typach.
@@ -35,6 +36,7 @@ Każdy z elementów jest wymodelowany na podstawie krzywej Beziera. Na końcach 
 Łączniki - służą do łączenia elementów ze sobą. Łącznik ma typ (obecnie są to dwa typy: RoadNarrow oraz RoadWide). Generator podczas dobierania kolejnego elementu trasy bierze pod uwage elementy tylko te, które posiadają łącznik o tym samym typie co łącznik elementu poprzednio wybranego. Zapewnia to, że elementy po wygenerowaniu będą tworzyć trasę, której elementy są dopasowane.
 
 Ponieważ, że generowanie oraz dobieranie elementów jest losowe to może zdażyć się sytuacja, że jakiś dobrany element może nałożyć się na wcześniej wygenerowany inny element. Taki efekt jest nieporządany bo może to tworzyć przenikające się tekstury oraz błędy typu `z-fighting`. 
+
 ![zfight]()
 
 Jest to rozwiązane dodanie do każdego elementu BoxCollidera, który następnie jest sprawdzany czy nie nakłada się z innymi elementami. Jeśli się nakłada algorytm próbuje ustawić element inaczej używając innego łącznika elementu (o ile takie są), jeśli nadal występuje taka sytuacja dobierany jest inny element. Jeśli nie ma innych możliwych elementów algorytm wraca.
