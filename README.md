@@ -29,7 +29,7 @@ Istnieje mnożnik punktów, który można zwiększyć przejeżdżając przez bra
 ### Generator tras
 Generator generuje trase z dostępnych obecnie 8 elementów drogi.
 
-![elementy](/readmeimg/elements.png)
+![elementy](readmeimg/elements.png)
 
 Każdy z elementów jest wymodelowany na podstawie krzywej Béziera. Na końcach tej krzywej znajdują się łączniki choć ich pozycja nie jest uzależniona od tego. Łączniki mogą znajdować się w dowolnym miejscu i w dowolnej ilości. W tym przypadku dla 8 podstawowych elementów każdy z nich ma po dwa łączniki na końcach krzywych Béziera o odpowiednich typach. 
 
@@ -37,7 +37,7 @@ Każdy z elementów jest wymodelowany na podstawie krzywej Béziera. Na końcach
 
 Ponieważ, że generowanie oraz dobieranie elementów są losowe to może zdarzyć się sytuacja, że jakiś dobrany element może nałożyć się na wcześniej wygenerowany inny element. Taki efekt jest niepożądany, bo może to tworzyć przenikające się tekstury oraz błędy typu `z-fighting`. 
 
-![zfight](/readmeimg/zfight.png)
+![zfight](readmeimg/zfight.png)
 
 Jest to rozwiązane dodanie do każdego elementu BoxCollider'a, który następnie jest sprawdzany czy nie nakłada się z innymi elementami. Jeśli się nakłada algorytm próbuje ustawić element inaczej używając innego łącznika elementu (o ile takie są), jeśli nadal występuje taka sytuacja dobierany jest inny element. Jeśli nie ma innych możliwych elementów algorytm wraca.
 ### System punktowy
@@ -82,7 +82,7 @@ Nagroda to 30 punktów.
  - Personalizacja wyglądu samochodu, zarówno malowanie jak i model
  - Edytor tras
  - Więcej elementów do generatora tras (skoki, rampy, droga z dziurami etc.)
- - Więcej obiektów do generacji na trasie (inne pudełka, bramki, strefy driftu etc)
+ - Więcej obiektów do generacji na trasie (inne pudełka, bramki, strefy driftu etc.)
 
 
 ## Użyte assety
