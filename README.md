@@ -16,6 +16,10 @@ Gracz ma za zadanie zdobyć jak największą ilość punktów w wyznaczonym czas
 
 ![screenshot](readmeimg/screenshot.png)
 
+<img width="30px" style="vertical-align:middle;" src="readmeimg/github.png"> [Repozytorium Github](https://github.com/matyjb/tireslide)
+
+<img width="30px" style="vertical-align:middle;" src="readmeimg/itch.png"> [Dostępna też na itch.io](https://matyjb.itch.io/tireslide)
+
 ## Założenia gry
 Za wykonywane poślizgi są zdobywane punkty. Na ilość punktów zdobytych wpływa kąt poślizgu oraz prędkość. Jeśli gracz zderzy się ze ścianą punkty za poślizg są anulowane. Zdobywane są tylko jeśli pomyślnie zakończy poślizg. 
 
