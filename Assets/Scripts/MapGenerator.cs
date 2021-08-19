@@ -7,123 +7,26 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     public GameObject startBlockPrefab;
-    public List<GameObject> blocksPrefabs;
+    public List<GameObject> elementsPrefabs;
     public GameObject finishBlockPrefab;
 
-    private Stack<GameObject> mapObjects;
+    private Stack<GameObject> t;
 
-    public int length = 3;
+    public int n = 3;
 
-    public void Generate(int seed)
+    public bool GenerateMapDFS(int seed)
     {
-        if (mapObjects != null)
-            DestroyMap();
-        mapObjects = new Stack<GameObject>();
-        Stack<Connector> connectors = new Stack<Connector>();
-        Connector usedConnector = null;
-
         Random.InitState(seed);
-        mapObjects.Push(Instantiate(startBlockPrefab, transform));
-        mapObjects.Peek().transform.localPosition = Vector3.zero;
-        mapObjects.Peek().transform.localRotation = Quaternion.identity;
+        if (t != null)
+            DestroyMap();
+        t = new Stack<GameObject>();
+        t.Push(Instantiate(startBlockPrefab, transform));
+        t.Peek().transform.localPosition = Vector3.zero;
+        t.Peek().transform.localRotation = Quaternion.identity;
 
-        for (int i = 0; i <= length; i++)
-        {
-            List<Connector> tmp = mapObjects.Peek().GetComponentsInChildren<Connector>().ToList();
-            tmp.Remove(usedConnector);
-            ShuffleList(tmp);
-            //Debug.Log("Liczba connectorow ostatniego klocka: " + tmp.Count.ToString());
-            foreach (Connector connector in tmp)
-            {
-                connectors.Push(connector);
-            }
+        bool result = GenerateMapDFS(t, elementsPrefabs, n);
 
-            List<GameObject> nextPossibleBlocks;
-            if (i == length)
-                nextPossibleBlocks = new List<GameObject>() { finishBlockPrefab };
-            else
-                nextPossibleBlocks = blocksPrefabs.Where((GameObject g) => g.GetComponentsInChildren<Connector>().Where((Connector c) => c.type == connectors.Peek().type).Count() > 0).ToList();
-            //Debug.Log("Liczba mo¿liwych nastêpnych klockow: " + nextPossibleBlocks.Count.ToString());
-            bool isOverlapping = false;
-            do
-            {
-                if (nextPossibleBlocks.Count == 0)
-                {
-                    Connector c = connectors.Pop();
-                    if (c.gameObject != connectors.Peek().gameObject)
-                    {
-                        // to byl ostatni connector z ostatnie klocka
-                        // ostatni klocek okazal sie komplemtnie nieprawid³owy
-                        // trzeba go usunaæ
-                        DestroyImmediate(mapObjects.Pop());
-                    }
-                    i--;
-                    if (i < 0)
-                    {
-                        Debug.LogError("Could not generate map");
-                        throw new System.Exception("Could not generate map");
-                    }
-                    break;
-                }
-                int selectedNextGameObjectIndex = Random.Range(0, nextPossibleBlocks.Count);
-                GameObject selectedNextGameObject = Instantiate(nextPossibleBlocks[selectedNextGameObjectIndex], transform);
-                //Debug.Log("Wybrany: " + selectedNextGameObject.name);
-
-                Vector3 lastBlockConnectorPos = connectors.Peek().transform.position;
-                Quaternion lastBlockConnectorRot = connectors.Peek().transform.rotation;
-
-                List<Connector> nextConnectors = selectedNextGameObject.GetComponentsInChildren<Connector>().ToList();
-                //Debug.Log("Liczba connectorow nastepnego klocka: " + nextConnectors.Count.ToString());
-                List<Connector> tmpWhereConnector = nextConnectors.Where((Connector c) => c.type == connectors.Peek().type).ToList();
-                //Debug.Log("Liczba connectorow kompatybilnych z poprzednim connectorem: " + tmpWhereConnector.Count.ToString());
-                Connector nextConnector = tmpWhereConnector[Random.Range(0, tmpWhereConnector.Count)];
-
-                Vector3 nextBlockConnectorPos = nextConnector.transform.position;
-                Quaternion nextBlockConnectorRot = nextConnector.transform.rotation * Quaternion.Euler(0, 180f, 0);
-
-
-                selectedNextGameObject.transform.position = selectedNextGameObject.transform.position + lastBlockConnectorPos - nextBlockConnectorPos;
-                RotateAround(selectedNextGameObject.transform, connectors.Peek().transform.position, selectedNextGameObject.transform.rotation * lastBlockConnectorRot * Quaternion.Inverse(nextBlockConnectorRot));
-
-                // TODO: check if no overlap
-                isOverlapping = false;
-                foreach (var mo in mapObjects)
-                {
-                    BoxCollider box1 = mo.GetComponent<BoxCollider>(); //first collider
-                    BoxCollider box2 = selectedNextGameObject.GetComponent<BoxCollider>(); //second collider
-                    float distance; //how far they need to move apart
-                    Vector3 direction; //which direction they need to move apart in
-                    bool hasCollided = Physics.ComputePenetration(box1, box1.transform.position, box1.transform.rotation,
-                                                            box2, box2.transform.position, box2.transform.rotation,
-                                                            out direction, out distance);
-                    //if (mo.GetComponent<BoxCollider>().bounds.Intersects(selectedNextGameObject.GetComponent<BoxCollider>().bounds))
-                    if (hasCollided)
-                    {
-                        isOverlapping = true;
-                        //Debug.Log("OVERLAP!");
-                        //Debug.Log(mo.name);
-                        //Debug.Log(selectedNextGameObject.name);
-
-                        break;
-                    }
-
-                }
-                //isOverlapping = false;
-                if (isOverlapping)
-                {
-                    nextPossibleBlocks.RemoveAt(selectedNextGameObjectIndex);
-                    DestroyImmediate(selectedNextGameObject);
-                }
-                else
-                {
-                    usedConnector = nextConnector;
-                    mapObjects.Push(selectedNextGameObject);
-                }
-            } while (isOverlapping);
-        }
-
-        //gen meshes
-        foreach (var item in mapObjects)
+        foreach (var item in t)
         {
             RoadMeshCreator rmc;
             if (item.TryGetComponent(out rmc))
@@ -133,13 +36,68 @@ public class MapGenerator : MonoBehaviour
                 sg.Generate();
         }
 
-        // dirty fix for road meshcolliders
+        // fix for road mesh colliders
         StartCoroutine(SetAllCollidersConvex());
+
+        return result;
+    }
+
+    private bool GenerateMapDFS(Stack<GameObject> t, List<GameObject> elementsPrefabs, int n)
+    {
+        if (IsLastElementOverlapped(t)) return false;
+        if (t.Count == n) return true;
+
+        List<Connector> unconnectedLastElementConnectors = t.Peek().GetComponentsInChildren<Connector>().Where(e => e.ConnectedTo == null).ToList();
+        ShuffleList(unconnectedLastElementConnectors);
+        foreach (var l in unconnectedLastElementConnectors)
+        {
+            List<GameObject> w;
+            if (t.Count == n - 1)
+                w = new List<GameObject>() { finishBlockPrefab };
+            else
+                w = elementsPrefabs.Where(e => e.GetComponentsInChildren<Connector>().Any(c => c.type == l.type)).ToList();
+
+            ShuffleList(w);
+            foreach (var item in w)
+            {
+                GameObject candidate = Instantiate(item, transform);
+                t.Push(candidate);
+                foreach (var ll in ShuffleList(candidate.GetComponentsInChildren<Connector>().Where(c=>c.type == l.type).ToList()))
+                {
+                    l.ConnectTo(ll);
+                    ll.AlignParentToConnected();
+                    if (GenerateMapDFS(t, elementsPrefabs, n)) 
+                        return true;
+                    l.Unconnect();
+                }
+                t.Pop();
+                DestroyImmediate(candidate);
+            }
+        }
+        return false;
+
+    }
+
+    private bool IsLastElementOverlapped(Stack<GameObject> t)
+    {
+        BoxCollider box1 = t.Peek().GetComponent<BoxCollider>();
+        foreach (var item in t)
+        {
+            if (item == t.Peek())
+                continue;
+            BoxCollider box2 = item.GetComponent<BoxCollider>(); //second collider
+            bool hasCollided = Physics.ComputePenetration(box1, box1.transform.position, box1.transform.rotation,
+                                                    box2, box2.transform.position, box2.transform.rotation,
+                                                    out _, out _);
+            if (hasCollided) 
+                return true;
+        }
+        return false;
     }
 
     private IEnumerator SetAllCollidersConvex()
     {
-        foreach (var item in mapObjects)
+        foreach (var item in t)
         {
             RoadMeshCreator rmc;
             if (item.TryGetComponent(out rmc))
@@ -150,9 +108,9 @@ public class MapGenerator : MonoBehaviour
 
     public void DestroyMap()
     {
-        if (mapObjects != null)
+        if (t != null)
         {
-            foreach (var item in mapObjects)
+            foreach (var item in t)
             {
                 if (item != null)
                 {
@@ -161,11 +119,11 @@ public class MapGenerator : MonoBehaviour
                     DestroyImmediate(item);
                 }
             }
-            mapObjects.Clear();
+            t.Clear();
         }
     }
 
-    private static void ShuffleList<T>(List<T> list)
+    private static List<T> ShuffleList<T>(List<T> list)
     {
         int n = list.Count;
         while (n > 1)
@@ -176,11 +134,6 @@ public class MapGenerator : MonoBehaviour
             list[k] = list[n];
             list[n] = value;
         }
-    }
-
-    static void RotateAround(Transform transform, Vector3 pivotPoint, Quaternion rot)
-    {
-        transform.position = rot * (transform.position - pivotPoint) + pivotPoint;
-        transform.rotation = rot * transform.rotation;
+        return list;
     }
 }

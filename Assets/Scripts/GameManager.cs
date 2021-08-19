@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.Starting;
         currentSeed = Random.Range(0, int.MaxValue);
-        generator.Generate(currentSeed);
+        generator.GenerateMapDFS(currentSeed);
         PlaceCarOnStart();
         seedPauseText.text = currentSeed.ToString();
         //StartCoroutine(ChangeStateAfter(GameState.Starting));
@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
         {
             currentSeed = seedText.text.GetHashCode();
         }
-        generator.Generate(currentSeed);
+        generator.GenerateMapDFS(currentSeed);
         PlaceCarOnStart();
         seedPauseText.text = currentSeed.ToString();
         //StartCoroutine(ChangeStateAfter(GameState.Starting));
