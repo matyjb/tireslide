@@ -6303,7 +6303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: n
-      value: 100
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: length

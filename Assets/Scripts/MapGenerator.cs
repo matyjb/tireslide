@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using PathCreation.Examples;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,9 +48,11 @@ public class MapGenerator : MonoBehaviour
         if (IsLastElementOverlapped(t)) return false;
         if (t.Count == n) return true;
 
-        List<Connector> unconnectedLastElementConnectors = t.Peek().GetComponentsInChildren<Connector>().Where(e => e.ConnectedTo == null).ToList();
-        ShuffleList(unconnectedLastElementConnectors);
-        foreach (var l in unconnectedLastElementConnectors)
+        IEnumerable<Connector> unconnectedLastElementConnectors = t.Peek()
+            .GetComponentsInChildren<Connector>()
+            .Where(e => e.ConnectedTo == null);
+
+        foreach (var l in unconnectedLastElementConnectors.Shuffle())
         {
             List<GameObject> w;
             if (t.Count == n - 1)
@@ -57,16 +60,15 @@ public class MapGenerator : MonoBehaviour
             else
                 w = elementsPrefabs.Where(e => e.GetComponentsInChildren<Connector>().Any(c => c.type == l.type)).ToList();
 
-            ShuffleList(w);
-            foreach (var item in w)
+            foreach (var item in w.Shuffle())
             {
                 GameObject candidate = Instantiate(item, transform);
                 t.Push(candidate);
-                foreach (var ll in ShuffleList(candidate.GetComponentsInChildren<Connector>().Where(c=>c.type == l.type).ToList()))
+                foreach (var ll in candidate.GetComponentsInChildren<Connector>().Where(c => c.type == l.type).Shuffle())
                 {
                     l.ConnectTo(ll);
                     ll.AlignParentToConnected();
-                    if (GenerateMapDFS(t, elementsPrefabs, n)) 
+                    if (GenerateMapDFS(t, elementsPrefabs, n))
                         return true;
                     l.Unconnect();
                 }
@@ -75,7 +77,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
         return false;
-
     }
 
     private bool IsLastElementOverlapped(Stack<GameObject> t)
@@ -85,11 +86,12 @@ public class MapGenerator : MonoBehaviour
         {
             if (item == t.Peek())
                 continue;
-            BoxCollider box2 = item.GetComponent<BoxCollider>(); //second collider
-            bool hasCollided = Physics.ComputePenetration(box1, box1.transform.position, box1.transform.rotation,
-                                                    box2, box2.transform.position, box2.transform.rotation,
-                                                    out _, out _);
-            if (hasCollided) 
+            BoxCollider box2 = item.GetComponent<BoxCollider>();
+            bool hasCollided = Physics.ComputePenetration(
+                box1, box1.transform.position, box1.transform.rotation,
+                box2, box2.transform.position, box2.transform.rotation,
+                out _, out _);
+            if (hasCollided)
                 return true;
         }
         return false;
@@ -121,19 +123,5 @@ public class MapGenerator : MonoBehaviour
             }
             t.Clear();
         }
-    }
-
-    private static List<T> ShuffleList<T>(List<T> list)
-    {
-        int n = list.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = Random.Range(0, n + 1);
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
-        }
-        return list;
     }
 }
