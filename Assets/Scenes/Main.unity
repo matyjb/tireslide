@@ -6303,16 +6303,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: n
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: length
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
+      propertyPath: generatorDepth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
+      propertyPath: generatorWidth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
+      propertyPath: generatorHeight
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: finishBlockPrefab
       value: 
       objectReference: {fileID: 2050158577590568435, guid: 0cd75beb51b3eea41a8015bd1a91f950, type: 3}
+    - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
+      propertyPath: maxGenerationTimeMs
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: elementsPrefabs.Array.size
       value: 7

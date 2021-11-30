@@ -2,7 +2,9 @@ using Assets.Scripts;
 using PathCreation.Examples;
 using System.Collections;
 using System.Collections.Generic;
+
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -11,12 +13,29 @@ public class MapGenerator : MonoBehaviour
     public List<GameObject> elementsPrefabs;
     public GameObject finishBlockPrefab;
 
+    public int generatorWidth = 200;
+    public int generatorHeight = 200;
+    public int generatorDepth = 200;
+
+    private Bounds _bounds;
+
     private Stack<GameObject> t;
 
     public int n = 3;
 
+    private System.Diagnostics.Stopwatch _generatorStopWatch = new System.Diagnostics.Stopwatch();
+    public long maxGenerationTimeMs = 10000;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(transform.position, new Vector3(generatorWidth, generatorHeight, generatorDepth));
+    }
+
     public bool GenerateMapDFS(int seed)
     {
+        _bounds = new Bounds(transform.position, new Vector3(generatorWidth, generatorHeight, generatorDepth));
+
         Random.InitState(seed);
         if (t != null)
             DestroyMap();
@@ -25,7 +44,10 @@ public class MapGenerator : MonoBehaviour
         t.Peek().transform.localPosition = Vector3.zero;
         t.Peek().transform.localRotation = Quaternion.identity;
 
+        _generatorStopWatch.Restart();
         bool result = GenerateMapDFS(t, elementsPrefabs, n);
+        _generatorStopWatch.Stop();
+
 
         foreach (var item in t)
         {
@@ -40,12 +62,19 @@ public class MapGenerator : MonoBehaviour
         // fix for road mesh colliders
         StartCoroutine(SetAllCollidersConvex());
 
+        if (!result)
+        {
+            Debug.LogError("Nie uda³o siê wygenerowaæ trasy!");
+            DestroyMap();
+        }
+        Debug.Log(string.Format("Czas generowania trasy: {0}ms", _generatorStopWatch.ElapsedMilliseconds));
         return result;
     }
 
     private bool GenerateMapDFS(Stack<GameObject> t, List<GameObject> elementsPrefabs, int n)
     {
-        if (IsLastElementOverlapped(t)) return false;
+        if (!IsLastElementInBounds(t) || IsLastElementOverlapped(t) || _generatorStopWatch.ElapsedMilliseconds > maxGenerationTimeMs)
+            return false;
         if (t.Count == n) return true;
 
         IEnumerable<Connector> unconnectedLastElementConnectors = t.Peek()
@@ -77,6 +106,27 @@ public class MapGenerator : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private bool IsLastElementInBounds(Stack<GameObject> t)
+    {
+        BoxCollider blockBox = t.Peek().GetComponent<BoxCollider>();
+        Vector3 blockBoxCenterWorldPosition = blockBox.transform.position + blockBox.center;
+        if (_bounds != null)
+            return _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(1, 1, 1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(1, 1, -1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(1, -1, 1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(1, -1, -1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(-1, 1, 1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(-1, 1, -1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(-1, -1, 1), blockBox.size)) &&
+                   _bounds.Contains(blockBoxCenterWorldPosition + Vector3.Scale(new Vector3(-1, -1, -1), blockBox.size));
+        else
+        {
+            Debug.LogError("Boundsy nullem!");
+
+            return true;
+        }
     }
 
     private bool IsLastElementOverlapped(Stack<GameObject> t)
