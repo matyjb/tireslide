@@ -64,7 +64,7 @@ public class MapGenerator : MonoBehaviour
 
         if (!result)
         {
-            Debug.LogError("Nie uda³o siê wygenerowaæ trasy!");
+            Debug.LogError("Nie udalo sie wygenerowac trasy!");
             DestroyMap();
         }
         Debug.Log(string.Format("Czas generowania trasy: {0}ms", _generatorStopWatch.ElapsedMilliseconds));
