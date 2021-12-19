@@ -21,7 +21,8 @@ public class MapGenerator : MonoBehaviour
 
     private Stack<GameObject> t;
 
-    public int n = 3;
+    public int maxMapLength = 50;
+    public int minMapLength = 10;
 
     private System.Diagnostics.Stopwatch _generatorStopWatch = new System.Diagnostics.Stopwatch();
     public long maxGenerationTimeMs = 10000;
@@ -32,11 +33,14 @@ public class MapGenerator : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(generatorWidth, generatorHeight, generatorDepth));
     }
 
-    public bool GenerateMapDFS(int seed)
+    public bool GenerateMapDFS(int seed, out int length)
     {
         _bounds = new Bounds(transform.position, new Vector3(generatorWidth, generatorHeight, generatorDepth));
 
         Random.InitState(seed);
+
+        length = Random.Range(minMapLength, maxMapLength);
+
         if (t != null)
             DestroyMap();
         t = new Stack<GameObject>();
@@ -45,7 +49,7 @@ public class MapGenerator : MonoBehaviour
         t.Peek().transform.localRotation = Quaternion.identity;
 
         _generatorStopWatch.Restart();
-        bool result = GenerateMapDFS(t, elementsPrefabs, n);
+        bool result = GenerateMapDFS(t, elementsPrefabs, length);
         _generatorStopWatch.Stop();
 
 

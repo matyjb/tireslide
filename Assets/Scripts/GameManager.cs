@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
 
     private int currentSeed = 0;
 
+    public float secondsPerBlock = 2.6f;
+
     public TextMeshProUGUI scoreFinishText;
     public TextMeshProUGUI seedFinishText;
 
@@ -162,10 +164,7 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.Starting;
         currentSeed = Random.Range(0, int.MaxValue);
-        generator.GenerateMapDFS(currentSeed);
-        PlaceCarOnStart();
-        seedPauseText.text = currentSeed.ToString();
-        //StartCoroutine(ChangeStateAfter(GameState.Starting));
+        GenMap(currentSeed);
     }
 
     public void GenerateNewMapFromSeed()
@@ -175,9 +174,18 @@ public class GameManager : MonoBehaviour
         {
             currentSeed = seedText.text.GetHashCode();
         }
-        generator.GenerateMapDFS(currentSeed);
+        GenMap(currentSeed);
+    }
+
+    private void GenMap(int seed)
+    {
+        generator.GenerateMapDFS(seed, out int length);
+        // calculate initialGameTimeLeft according to generated map
+        initialGameTimeLeft = length * secondsPerBlock;
+        gameTimeLeftSeconds = initialGameTimeLeft;
+
         PlaceCarOnStart();
-        seedPauseText.text = currentSeed.ToString();
+        seedPauseText.text = seed.ToString();
         //StartCoroutine(ChangeStateAfter(GameState.Starting));
     }
 

@@ -2783,6 +2783,7 @@ MonoBehaviour:
   gameTimeLeftSeconds: 60
   timeLeftText: {fileID: 480637815}
   generator: {fileID: 173793823}
+  secondsPerBlock: 2.6
   scoreFinishText: {fileID: 770366253}
   seedFinishText: {fileID: 180758400}
 --- !u!82 &963194232
@@ -6308,6 +6309,10 @@ PrefabInstance:
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: length
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
+      propertyPath: maxMapLength
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8136984130471262446, guid: f416f60d3706a1a49ad9c14f8779487f, type: 3}
       propertyPath: generatorDepth

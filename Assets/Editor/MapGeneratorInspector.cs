@@ -11,7 +11,7 @@ public class MapGeneratorInspector : Editor
         MapGenerator generator = (MapGenerator)target;
         if(GUILayout.Button("Generate map (random seed)"))
         {
-            generator.GenerateMapDFS(Random.Range(0,int.MaxValue));
+            generator.GenerateMapDFS(Random.Range(0,int.MaxValue), out var _);
         }
         if (GUILayout.Button("Destroy map"))
         {
