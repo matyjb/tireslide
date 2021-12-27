@@ -190,6 +190,9 @@ public class GameManager : MonoBehaviour
     private void GenMap(int seed)
     {
         generator.GenerateMapDFS(seed, out int length);
+        Debug.Log(generator.CountCubesStacks());
+        Debug.Log(generator.CountScoreGates());
+        Debug.Log(generator.CountComboGates());
         // calculate initialGameTimeLeft according to generated map
         initialGameTimeLeft = length * secondsPerBlock;
         gameTimeLeftSeconds = initialGameTimeLeft;

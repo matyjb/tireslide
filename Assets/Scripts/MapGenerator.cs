@@ -183,4 +183,35 @@ public class MapGenerator : MonoBehaviour
             t.Clear();
         }
     }
+
+    public int CountCubesStacks()
+    {
+        int count = 0;
+        foreach (Transform child0 in transform)
+        {
+            foreach (Transform child1 in child0)
+                if (child1.name.Contains("CubesStack")) count++;
+        }
+        return count;
+    }
+    public int CountScoreGates()
+    {
+        int count = 0;
+        foreach (Transform child0 in transform)
+        {
+            foreach (Transform child1 in child0)
+                if (child1.name.Contains("ScoreGate")) count++;
+        }
+        return count;
+    }
+    public int CountComboGates()
+    {
+        int count = 0;
+        foreach (Transform child0 in transform)
+        {
+            foreach (Transform child1 in child0)
+                if (child1.name.Contains("ComboGate")) count++;
+        }
+        return count;
+    }
 }

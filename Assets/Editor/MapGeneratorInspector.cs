@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Diagnostics;
 using System.IO;
+using Debug = UnityEngine.Debug;
 
 [CustomEditor(typeof(MapGenerator))]
 public class MapGeneratorInspector : Editor
@@ -15,7 +16,12 @@ public class MapGeneratorInspector : Editor
         MapGenerator generator = (MapGenerator)target;
         if (GUILayout.Button("Generate map (random seed)"))
         {
-            generator.GenerateMapDFS(Random.Range(0, int.MaxValue), out var _);
+            int n;
+            generator.GenerateMapDFS(Random.Range(0, int.MaxValue), out n);
+            Debug.Log("Length: " + n);
+            Debug.Log("Combo gates: " + generator.CountComboGates());
+            Debug.Log("Score gates: " + generator.CountScoreGates());
+            Debug.Log("Cubes stacks: " + generator.CountCubesStacks());
         }
         if (GUILayout.Button("Destroy map"))
         {
@@ -26,7 +32,7 @@ public class MapGeneratorInspector : Editor
         {
             Stopwatch stopWatch = new Stopwatch();
             StreamWriter sw = new StreamWriter("benchmarkData.csv");
-            sw.WriteLine("seed;length;seconds");
+            sw.WriteLine("seed;length;seconds;cubes_stacks;score_gates;combo_gates");
             for (int i = 0; i < benchmarkMapsToGenerate; i++)
             {
                 int length, seed = Random.Range(0, int.MaxValue);
@@ -34,8 +40,11 @@ public class MapGeneratorInspector : Editor
                 if (generator.GenerateMapDFS(seed, out length))
                 {
                     double secondsToGenerate = stopWatch.Elapsed.TotalSeconds;
+                    int countCubesStacks = generator.CountCubesStacks();
+                    int countScoreGates = generator.CountScoreGates();
+                    int countComboGates = generator.CountComboGates();
                     generator.DestroyMap();
-                    sw.WriteLine(string.Join(";", new dynamic[] { seed, length, secondsToGenerate }));
+                    sw.WriteLine(string.Join(";", new dynamic[] { seed, length, secondsToGenerate, countCubesStacks, countScoreGates, countComboGates }));
                 }
                 else
                 {
