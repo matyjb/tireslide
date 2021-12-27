@@ -76,7 +76,7 @@ public class MapGenerator : MonoBehaviour
             Debug.LogError("Nie udalo sie wygenerowac trasy!");
             DestroyMap();
         }
-        Debug.Log(string.Format("Czas generowania trasy: {0}ms", _generatorStopWatch.ElapsedMilliseconds));
+        // Debug.Log(string.Format("Czas generowania trasy: {0}ms", _generatorStopWatch.ElapsedMilliseconds));
         return result;
     }
 
