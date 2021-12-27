@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  _connectedTo: {fileID: 0}
 --- !u!1 &2050158577590568435
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +253,7 @@ GameObject:
   - component: {fileID: 7452452934114543512}
   m_Layer: 0
   m_Name: Finish
-  m_TagString: Untagged
+  m_TagString: driftable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -346,7 +347,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -509,6 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  _connectedTo: {fileID: 0}
 --- !u!1 &7819463058484207972
 GameObject:
   m_ObjectHideFlags: 0

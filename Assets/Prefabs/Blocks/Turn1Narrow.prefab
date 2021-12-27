@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2789743932420366521}
   m_Layer: 0
   m_Name: Turn1Narrow
-  m_TagString: ground
+  m_TagString: driftable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  _connectedTo: {fileID: 0}
 --- !u!1 &5609609811031578406
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,3 +230,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  _connectedTo: {fileID: 0}

@@ -24,6 +24,9 @@ public class MapGenerator : MonoBehaviour
     public int maxMapLength = 50;
     public int minMapLength = 10;
 
+    public int lastGeneratedMapLenght;
+    public int lastGeneratedMapSeed;
+
     private System.Diagnostics.Stopwatch _generatorStopWatch = new System.Diagnostics.Stopwatch();
     public long maxGenerationTimeMs = 10000;
 
@@ -40,6 +43,8 @@ public class MapGenerator : MonoBehaviour
         Random.InitState(seed);
 
         length = Random.Range(minMapLength, maxMapLength);
+        lastGeneratedMapLenght = length;
+        lastGeneratedMapSeed = seed;
 
         if (t != null)
             DestroyMap();

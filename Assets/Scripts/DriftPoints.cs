@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -72,7 +73,12 @@ public class DriftPoints : MonoBehaviour, IResetable
             float points = velFactor * angleFactor * PointsManager.instance.multiplier;
             pointsGained = points > 0.1f;
             pitchFactor = 0.9f + velFactor * angleFactor * 0.2f;
-            pointsDrift += points;
+
+            RaycastHit[] hits = Physics.RaycastAll(transform.position+transform.up*2, -transform.up);
+            if (hits.Any((hit)=>hit.collider.tag == "driftable"))
+            {
+                pointsDrift += points;
+            }
         }
         else
         {

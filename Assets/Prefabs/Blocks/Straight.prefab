@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  _connectedTo: {fileID: 0}
 --- !u!1 &4830101680993791672
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  _connectedTo: {fileID: 0}
 --- !u!1 &8135707137488620313
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +105,7 @@ GameObject:
   - component: {fileID: 3600362920169826714}
   m_Layer: 0
   m_Name: Straight
-  m_TagString: ground
+  m_TagString: driftable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

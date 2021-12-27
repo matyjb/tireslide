@@ -20,7 +20,8 @@ public class Finish : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GameManager.instance.GameState = GameState.Finished;
+            //GameManager.instance.GameState = GameState.Finished;
+            GameManager.instance.GameState = GameState.Form;
         }
     }
 }

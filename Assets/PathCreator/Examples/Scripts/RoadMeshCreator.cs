@@ -140,7 +140,7 @@ namespace PathCreation.Examples
             meshHolder.transform.rotation = Quaternion.identity;
             meshHolder.transform.position = Vector3.zero;
             meshHolder.transform.localScale = Vector3.one;
-            meshHolder.tag = "ground";
+            meshHolder.tag = "driftable";
 
             // Ensure mesh renderer and filter components are assigned
             if (!meshHolder.gameObject.GetComponent<MeshFilter>())

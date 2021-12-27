@@ -13,6 +13,7 @@ public enum GameState
     Finished,
     Starting,
     Menu,
+    Form,
 }
 
 public class GameManager : MonoBehaviour
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI seedPauseText;
     public CanvasGroup gameCanvas;
     public CanvasGroup finishCanvas;
+    public CanvasGroup formCanvas;
 
     public GameState _gameState;
 
@@ -123,6 +125,14 @@ public class GameManager : MonoBehaviour
                         scoreFinishText.text = string.Format("Score: {0}", Mathf.RoundToInt(PointsManager.instance.Points).ToString());
                         seedFinishText.text = string.Format("Seed: {0}", currentSeed.ToString());
 
+                        break;
+                    case GameState.Form:
+                        camController.enabled = false;
+                        Time.timeScale = 1;
+                        AudioListener.pause = false;
+                        player.gameObject.GetComponent<CarControllerNew>().ControlsEnabled = false;
+                        // unfreeze player
+                        player.constraints = RigidbodyConstraints.None;
                         break;
                 }
                 _gameState = value;
@@ -243,6 +253,8 @@ public class GameManager : MonoBehaviour
         gameCanvas.interactable = gameCanvas.blocksRaycasts = GameState == GameState.Playing || GameState == GameState.Starting;
         finishCanvas.alpha = Mathf.Lerp(finishCanvas.alpha, GameState == GameState.Finished ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
         finishCanvas.interactable = finishCanvas.blocksRaycasts = GameState == GameState.Finished;
+        formCanvas.alpha = Mathf.Lerp(formCanvas.alpha, GameState == GameState.Form ? 1 : 0, Time.unscaledDeltaTime / 0.05f);
+        formCanvas.interactable = formCanvas.blocksRaycasts = GameState == GameState.Form;
         if (GameState == GameState.Playing)
         {
             gameTimeLeftSeconds -= Time.deltaTime;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ground
   - Wall
+  - driftable
   layers:
   - Default
   - TransparentFX
