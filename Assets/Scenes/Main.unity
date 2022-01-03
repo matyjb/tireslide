@@ -9138,6 +9138,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1066253044}
     - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
+      value: e6d1526a-6273-4d0c-ad44-32aed7b6c2ce
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
+      value: Player/ForceFinish[/Keyboard/p]
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
       propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 963194231}
@@ -9145,6 +9165,26 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 963194231}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 963194231}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ForceFinish_performed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240584518799849797, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7240959890802757180, guid: 3d2b3ce58c859e4439ac0a355d5745ce, type: 3}
       propertyPath: m_Name
       value: Player

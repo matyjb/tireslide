@@ -164,6 +164,13 @@ public class GameManager : MonoBehaviour
             RestartGame();
     }
 
+    public void ForceFinish_performed(InputAction.CallbackContext obj)
+    {
+        if (obj.started)
+            //GameState = GameState.Finished;
+            GameState = GameState.Form;
+    }
+
     public IEnumerator ChangeStateAfter(GameState nextState)
     {
         yield return new WaitForSeconds(0.1f);
